@@ -7,5 +7,9 @@ router.get('/', async (req, res) => {
     res.render('other/login', {layout: 'mainLogin', StudentError: "testing student error"});
   });
 
+router.post('/', async (req, res) => {
+
+});
+
 
 module.exports = router;
