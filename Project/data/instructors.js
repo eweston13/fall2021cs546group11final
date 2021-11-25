@@ -48,7 +48,7 @@ async function test(){
     console.log("Instructor check:", instructor1verif)
 }
 
- test()
+// test()
 
 module.exports = {
     addInstructor,
