@@ -47,6 +47,23 @@ app.use(
   })
 );
 
+app.use('/', (req, res, next) =>{
+  // console.log(Object.keys(req))
+
+  if(req.session.username){
+    console.log("[",new Date().toUTCString(), "]: ", req.method, req.originalUrl, " (Authenticated User)")
+  }else{
+    console.log("[",new Date().toUTCString(), "]: ", req.method, req.originalUrl, " (Non-Authenticated User)")
+  }
+
+  if(req.url == '/' && req.session.username ){
+    return res.redirect('/private')
+  }else{
+    next()
+  }
+  }
+);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
