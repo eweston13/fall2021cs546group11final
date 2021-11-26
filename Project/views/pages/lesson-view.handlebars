@@ -1,0 +1,13 @@
+<nav id="lesson-list">
+	<ul>
+		{{#each lessons}}
+		<li><a href='{{this.url}}'>{{this.name}}</a></li>
+		{{/each}}
+	</ul>
+</nav>
+
+<main>
+	<h1>{{lessonName}}</h1>
+	<h2>Author: {{authorName}}</h2>
+	<p>{{{lessonText}}}</p>
+</main>
