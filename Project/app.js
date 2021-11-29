@@ -6,8 +6,10 @@ const cookieParser = require('cookie-parser');
 const configRoutes = require('./routes');
 app.use(cookieParser());
 
-const exphbs = require('express-handlebars');
+const {engine} = require('express-handlebars');
 
+/*
+	commented this out because it wasn't working -erin
 
 const handlebarsInstance = exphbs.create({
     defaultLayout: 'main',
@@ -21,6 +23,7 @@ const handlebarsInstance = exphbs.create({
       }
     }
   });
+*/
 
 const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   // If the user posts to the server with a property called _method, rewrite the request's method
@@ -42,8 +45,9 @@ app.use(express.json());
 app.use(
   session({
     name: 'AuthCookie',
-    secret:"test",
-    resave: false
+    secret: "test",
+    resave: false,
+    saveUninitialized: true
   })
 );
 
@@ -67,7 +71,7 @@ app.use('/', (req, res, next) =>{
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
-app.engine('handlebars', handlebarsInstance.engine);
+app.engine('handlebars', engine({extname: '.handlebars', defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 configRoutes(app);
