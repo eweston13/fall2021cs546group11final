@@ -61,7 +61,7 @@ app.use('/', (req, res, next) =>{
   }
 
   if(req.url == '/' && req.session.username ){
-    return res.redirect('/private')
+    return res.redirect('/home')
   }else{
     next()
   }
