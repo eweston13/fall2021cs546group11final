@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "../config"
+		},
+		{
+			"path": "../data"
+		},
+		{
+			"path": "../node_modules"
+		},
+		{
+			"path": "../public"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../tasks"
+		},
+		{
+			"path": "../views"
+		}
+	]
+}
