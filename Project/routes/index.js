@@ -10,7 +10,7 @@ const constructorMethod = (app) => {
     app.use('/home', homePage);
   
     app.use('*', (req, res) => {
-      res.redirect('/');
+      res.redirect('/login');
     });
   };
   
