@@ -30,10 +30,12 @@ router.get('/:id', async (req, res) => {
 	
 	const relatedLessons = await lessonsData.getMyLessons(authorId);
 	
+	let authorName = null;
+	
 	try {
-		let authorName = await instructorData.getInstructorName(authorId);
+		authorName = await instructorData.getInstructorName(authorId);
 	} catch (e) {
-		let authorName = ''; // not sure if a deleted instructor should be left blank or indicate the instructor is no longer in the database
+		authorName = ''; // not sure if a deleted instructor should be left blank or indicate the instructor is no longer in the database
 	}
 	
 	res.render('other/lesson-view', {lessons: relatedLessons, lessonName: title, authorName: authorName, lessonText: body});
