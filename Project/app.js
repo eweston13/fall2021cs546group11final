@@ -62,13 +62,22 @@ app.use('/', (req, res, next) =>{
     console.log("[",new Date().toUTCString(), "]: ", req.method, req.originalUrl, " (Non-Authenticated User)")
   }
 
-  if(req.url == '/' && req.session.username ){
-    return res.redirect('/private')
-  }else{
-    next()
-  }
+  // if(req.url == '/' && req.session.username ){
+  //   return res.redirect('/home')
+  // }else{
+  //   next()
+  // }
+
+  // if(req.session.username && req.originalUrl == '/login' || req.session.username && req.originalUrl == '/signup/'){
+  //   return res.redirect("/home")
+  // }
+
+  next()
   }
 );
+
+
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
