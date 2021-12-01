@@ -4,6 +4,8 @@ const app = express();
 const static = express.static(__dirname + '/public');
 const cookieParser = require('cookie-parser'); 
 const configRoutes = require('./routes');
+const seed = require('./tasks/seed');
+
 app.use(cookieParser());
 
 const {engine} = require('express-handlebars');
@@ -79,6 +81,10 @@ configRoutes(app);
 app.listen(3000, () => {
   console.log("We've now got a server!");
   console.log('Your routes will be running on http://localhost:3000');
+});
+
+seed().catch((e) => {
+	console.log(e);
 });
 
 

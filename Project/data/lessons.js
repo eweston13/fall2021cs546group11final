@@ -25,7 +25,7 @@ const createLesson = async (name, author, body, tags) => {
 	
 	let newLesson = {
 		name: name,
-		authorId: author, // this is a simple string right now, idk if we want to save as ObjectID or just string (will depend on instructor DB functions)
+		authorId: author, // this is a simple string, not object id
 		body: body,
 		tags: tags,
 		questions: [] // i think this should be an object array of the question key-value pair, and the answers key-value pair where the value of answers is its own array of the replies on the corresponding question
@@ -44,8 +44,22 @@ const createLesson = async (name, author, body, tags) => {
 	
 	const insertInfo = await lessonCollection.insertOne(newLesson);
 	if (insertInfo.insertedCount === 0) throw `Could not add lesson`;
+	const lessonId = insertInfo.insertedId.toString();
 	
-	return {lessonAdded: true};
+	// now add lesson Id to instructor's list
+	const instructorCollection = await instructors();
+	
+	const convertedAuthor = ObjectId(author);
+	let lessonAuthor = await instructorCollection.findOne({_id: convertedAuthor});
+	lessonAuthor.lessonsCreated.push(lessonId);
+	
+	const updateAuthorInfo = await instructorCollection.updateOne(
+		{_id: convertedAuthor},
+		{$set: lessonAuthor}
+	);
+	if (updateAuthorInfo.modifiedCount === 0) throw `Could not add lesson to author`;
+	
+	return lessonId;
 }
 
 const getLesson = async (id) => {
@@ -68,14 +82,29 @@ const getMyLessons = async (id) => {
 	let convertedId = new ObjectId(id);
 	const lessonCollection = await lessons();
 	
-	const lessonList = await lessonCollection.find({authorId: convertedId});
+	const lessonList = await lessonCollection.find({authorId: convertedId}).toArray( function (err, result) {
+		if (err) throw err;
+		console.log(result);
+	});
 	
-	if (lessonList === null) return [];
-	return lessonList;
+	/*if (lessonList.length === 0) */return [];
+	//return lessonList;
+}
+
+const addQuestion = async (lessonId, question) => {
+	// this function adds a question to a lesson
+	
+}
+
+const addReply = async (lessonId, questionId, reply) => {
+	// this function adds a reply to a question on a lesson
+	
 }
 
 module.exports = {
 	createLesson,
 	getLesson,
-	getMyLessons
+	getMyLessons,
+	addQuestion,
+	addReply
 }
