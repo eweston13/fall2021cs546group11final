@@ -1,5 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const grades = mongoCollections.grades;
+const quizzes = mongoCollections.quizzes;
+
 const { ObjectId } = require('mongodb');
 
 module.exports = {
@@ -8,7 +10,7 @@ module.exports = {
 
     async createGrades(studentName,quizName,grade)
     {
-
+        
     },
 
     async editGrades(id,grade)

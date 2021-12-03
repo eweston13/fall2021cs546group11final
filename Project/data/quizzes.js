@@ -5,7 +5,7 @@ const { ObjectId } = require('mongodb');
 module.exports = {
 
 //---------------------CREATE A NEW QUIZ (By ADMIN/INSTRUCTORS)--------------------//
-    async createQuiz(quizName,authorId,questions,answersCorrect){
+    async createQuiz(quizName,authorId,quizInfo){
     
         if(!quizName)
         {
@@ -37,60 +37,88 @@ module.exports = {
             throw "The authorId cannot be empty";
         }
 
-        if(Array.isArray(questions) == false)
+        let quizData = [];
+
+        if(Array.isArray(quizInfo) == false)
         {
-            throw "The questions field needs to be an array";
+            throw "The quizInfo should be an array";
         }
 
-        if(questions.length == 0)
+        if(quizInfo.length == 0)
         {
-            throw "The questions field cannot be empty";
+            throw "The quizInfo should not be empty";
         }
 
-        for(let i=0;i<questions.length;i++)
+        for(let i=0;i<quizInfo.length;i++)
         {
-            if(typeof (questions[i]) !== "string")
+            if(!quizInfo[i]['question'])
             {
-                throw "The element in questions should be a proper string";
+                throw "The question is not provided";
             }
-            
-            if(questions[i].length == 0 || questions[i].trim().length == 0)
-            {
-                throw "The element in questions should not be an empty string";
-            }
-        }
 
-        if(Array.isArray(answersCorrect) == false)
-        {
-            throw "The answersCorrect field needs to be an array";
-        }
-
-        if(answersCorrect.length == 0)
-        {
-            throw "The answersCorrect field cannot be empty";
-        }
-
-        for(let i=0;i<answersCorrect.length;i++)
-        {
-            if(typeof (answersCorrect[i]) !== "string")
+            if(typeof quizInfo[i]['question'] !== "string")
             {
-                throw "The element in answersCorrect should be a proper string";
+                throw "The question should be a string";
             }
-            
-            if(answersCorrect[i].length == 0 || answersCorrect[i].trim().length == 0)
+
+            if(quizInfo[i]['question'].length == 0 || quizInfo[i]['question'].trim().length == 0)
             {
-                throw "The element in answersCorrect should not be an empty string";
+                throw "The question cannot be empty";
             }
+
+            if(Array.isArray(quizInfo[i]['options']) == false)
+            {
+                throw "The answer options field should be an array";
+            }
+
+            if(quizInfo[i]['options'].length == 0)
+            {
+                throw "The answer options field should not be empty";
+            }
+
+            for(let j=0;j<quizInfo[i]['options'].length;j++)
+            {
+                if(!quizInfo[i]['options'][j]) 
+                {
+                    throw "Please provide the answer option";
+                }
+
+                if(typeof quizInfo[i]['options'][j] !== "string")
+                {
+                    throw "The answer option should be a string";
+                }
+
+                if(quizInfo[i]['options'][j].length == 0 || quizInfo[i]['options'][j].trim().length == 0)
+                {
+                    throw "The answer option cannot be empty";
+                }
+            }
+
+            if(!quizInfo[i]['correctAnswer'])
+            {
+                throw "The correctAnswer is not provided";
+            }
+
+            if(typeof quizInfo[i]['correctAnswer'] !== "string")
+            {
+                throw "The correctAnswer should be a string";
+            }
+
+            if(quizInfo[i]['correctAnswer'].length == 0 || quizInfo[i]['correctAnswer'].trim().length == 0)
+            {
+                throw "The correctAnswer cannot be empty";
+            }
+
+            quizData.push(quizInfo[i]);
         }
 
         const quizCollection = await quizzes();
 
         let new_quiz = {
 
-            quizName: quizName,
+            quizName: quizName.toLowerCase(),
             authorId: authorId,
-            questions: questions,
-            answersCorrect: answersCorrect
+            quizData: quizData
         };
 
         const insertInfo = await quizCollection.insertOne(new_quiz);
@@ -99,9 +127,9 @@ module.exports = {
 
         const newId = insertInfo.insertedId;
 
-        const quizInfo = await this.getQuizById(newId.toString());
+        const getquizInfo = await this.getQuizById(newId.toString());
 
-        return quizInfo;
+        return getquizInfo;
     },
 
 //-----------------------GET QUIZ INFORMATION BY ID (By ADMIN/INSTRUCTORS)------------------------//
@@ -169,7 +197,7 @@ module.exports = {
             throw "The id parameter cannot be empty";
         }
 
-        if(!ObjectId.isValid)
+        if(!ObjectId.isValid(id))
         {
             throw "The ObjectId is not valid";
         }
@@ -188,7 +216,7 @@ module.exports = {
     },
 
 //---------------------UPDATE A PARTICULAR QUIZ (By ADMIN/INSTRUCTORS)--------------------//
-    async updateQuiz(id,quizName,authorId,questions,answersCorrect){
+    async updateQuiz(id,quizName,authorId,quizInfo){
 
         if(!id)
         {
@@ -235,53 +263,88 @@ module.exports = {
             throw "The authorId cannot be empty";
         }
 
-        if(Array.isArray(questions) == false)
+        let quizData = [];
+
+        if(Array.isArray(quizInfo) == false)
         {
-            throw "The questions field needs to be an array";
+            throw "The quizInfo should be an array";
         }
 
-        if(questions.length == 0)
+        if(quizInfo.length == 0)
         {
-            throw "The questions field cannot be empty";
+            throw "The quizInfo should not be empty";
         }
 
-        for(let i=0;i<questions.length;i++)
+        for(let i=0;i<quizInfo.length;i++)
         {
-            if(typeof (questions[i]) !== "string")
+            if(!quizInfo[i]['question'])
             {
-                throw "The element in questions should be a proper string";
+                throw "The question is not provided";
             }
-            
-            if(questions[i].length == 0 || questions[i].trim().length == 0)
+
+            if(typeof quizInfo[i]['question'] !== "string")
             {
-                throw "The element in questions should not be an empty string";
+                throw "The question should be a string";
             }
-        }
 
-        if(Array.isArray(answersCorrect) == false)
-        {
-            throw "The answersCorrect field needs to be an array";
-        }
-
-        if(answersCorrect.length == 0)
-        {
-            throw "The answersCorrect field cannot be empty";
-        }
-
-        for(let i=0;i<answersCorrect.length;i++)
-        {
-            if(typeof (answersCorrect[i]) !== "string")
+            if(quizInfo[i]['question'].length == 0 || quizInfo[i]['question'].trim().length == 0)
             {
-                throw "The element in answersCorrect should be a proper string";
+                throw "The question cannot be empty";
             }
-            
-            if(answersCorrect[i].length == 0 || answersCorrect[i].trim().length == 0)
+
+            if(!quizInfo[i]['options'])
             {
-                throw "The element in answersCorrect should not be an empty string";
+                throw "The options is not provided";
             }
+
+
+            if(Array.isArray(quizInfo[i]['options']) == false)
+            {
+                throw "The options field should be an array";
+            }
+
+            if(quizInfo[i]['options'].length == 0)
+            {
+                throw "The options field should not be empty";
+            }
+
+            for(let j=0;j<quizInfo[i]['options'].length;j++)
+            {
+                if(!quizInfo[i]['options'][j]) 
+                {
+                    throw "Please provide the answer option";
+                }
+
+                if(typeof quizInfo[i]['options'][j] !== "string")
+                {
+                    throw "The answer option should be a string";
+                }
+
+                if(quizInfo[i]['options'][j].length == 0 || quizInfo[i]['options'][j].trim().length == 0)
+                {
+                    throw "The answer option cannot be empty";
+                }
+            }
+
+            if(!quizInfo[i]['correctAnswer'])
+            {
+                throw "The correctAnswer is not provided";
+            }
+
+            if(typeof quizInfo[i]['correctAnswer'] !== "string")
+            {
+                throw "The correctAnswer should be a string";
+            }
+
+            if(quizInfo[i]['correctAnswer'].length == 0 || quizInfo[i]['correctAnswer'].trim().length == 0)
+            {
+                throw "The correctAnswer cannot be empty";
+            }
+
+            quizData.push(quizInfo[i]);
         }
 
-        if(!ObjectId.isValid)
+        if(!ObjectId.isValid(id))
         {
             throw "The ObjectId is not valid";
         }
@@ -292,10 +355,9 @@ module.exports = {
 
         const updated_quiz = {
             
-            quizName: quizName,
+            quizName: quizName.toLowerCase(),
             authorId: authorId,
-            questions: questions,
-            answersCorrect: answersCorrect
+            quizData: quizData
         };
 
         const updateInfo = await quizCollection.updateOne(
@@ -309,6 +371,52 @@ module.exports = {
         }
 
         return await this.getQuizById(id);
-    }
+    },
     
+//--------------GET QUIZ BY NAME (FOR STUDENTS)-----------------//
+    async getQuizByName(name)
+    {
+
+        if(!name)
+        {
+            throw "The name is not provided";
+        }
+
+        if(typeof name !== "string")
+        {
+            throw "The name should be of type string";
+        }
+
+        if(name.length == 0 || name.trim().length == 0)
+        {
+            throw "The name cannot be empty";
+        }
+
+        //let searchTerm = name.charAt(0).toUpperCase() + name.slice(1);
+
+        let searchTerm = name.toLowerCase();
+
+        const quizCollection = await quizzes();
+        const quiz = await quizCollection.find({ "quizName": { $regex: searchTerm }}).toArray();
+
+        if (quiz === null)
+        {
+            throw 'No quiz found with the provided search name';
+        } 
+        
+        for(let a=0;a<quiz.length;a++)
+        {
+            for(let i in quiz[a])
+            {
+                if(i == "_id")
+                {
+                    quiz[a][i] = quiz[a][i].toString(); 
+                    break;
+                }
+            }
+        }
+        
+
+        return quiz;
+    }
 }
