@@ -4,10 +4,14 @@ const app = express();
 const static = express.static(__dirname + '/public');
 const cookieParser = require('cookie-parser'); 
 const configRoutes = require('./routes');
+const seed = require('./tasks/seed');
+
 app.use(cookieParser());
 
-const exphbs = require('express-handlebars');
+const {engine} = require('express-handlebars');
 
+/*
+	commented this out because it wasn't working -erin
 
 const handlebarsInstance = exphbs.create({
     defaultLayout: 'main',
@@ -21,6 +25,7 @@ const handlebarsInstance = exphbs.create({
       }
     }
   });
+*/
 
 const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   // If the user posts to the server with a property called _method, rewrite the request's method
@@ -42,15 +47,42 @@ app.use(express.json());
 app.use(
   session({
     name: 'AuthCookie',
-    secret:"test",
-    resave: false
+    secret: "test",
+    resave: false,
+    saveUninitialized: true
   })
 );
+
+app.use('/', (req, res, next) =>{
+  // console.log(Object.keys(req))
+
+  if(req.session.username){
+    console.log("[",new Date().toUTCString(), "]: ", req.method, req.originalUrl, " (Authenticated User)")
+  }else{
+    console.log("[",new Date().toUTCString(), "]: ", req.method, req.originalUrl, " (Non-Authenticated User)")
+  }
+
+  // if(req.url == '/' && req.session.username ){
+  //   return res.redirect('/home')
+  // }else{
+  //   next()
+  // }
+
+  // if(req.session.username && req.originalUrl == '/login' || req.session.username && req.originalUrl == '/signup/'){
+  //   return res.redirect("/home")
+  // }
+
+  next()
+  }
+);
+
+
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
-app.engine('handlebars', handlebarsInstance.engine);
+app.engine('handlebars', engine({extname: '.handlebars', defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 configRoutes(app);
@@ -58,6 +90,10 @@ configRoutes(app);
 app.listen(3000, () => {
   console.log("We've now got a server!");
   console.log('Your routes will be running on http://localhost:3000');
+});
+
+seed().catch((e) => {
+	console.log(e);
 });
 
 

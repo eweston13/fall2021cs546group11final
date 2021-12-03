@@ -1,12 +1,33 @@
  <div>
-        <h1>Student Sign up</h1>
+        <h1>Student Signup</h1>
 
-        <form id = "login-form" method = "post" action = "/login">
+        <form id = "login-form" method = "post" action = "/signup/studentSignup">
+            <div>
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName">
+            </div>
+
+            <div>  
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName">
+            </div>
+
+            <div>
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email">
+            </div>
+
+            <div>
             <label for="username">Username</label>
             <input type="text" id="username" name="username">
+            </div>
+
+            <div>
             <label for="password">Password</label>
             <input type="text" id="password" name="password">
-            <a href="login">Click here to go back to login page</a>
+            </div>
+
+            <a href="/login">Click here to go back to login page</a>
             <button type="submit" id="signUp-Button">Submit</button>
         </form>
 
@@ -15,12 +36,34 @@
 
         <h1>Instructor Signup</h1>
 
-        <form id = "login-form" method = "post" action = "/login">
+        <form id = "login-form" method = "post" action = "/signup/instructorSignup">
+
+            <div>
+            <label for="instructorFirstName">First Name</label>
+            <input type="text" id="instructorFirstName" name="instructorFirstName">
+            </div>
+           
+            <div>
+            <label for="instructorLastName">Last Name</label>
+            <input type="text" id="instructorLastName" name="instructorLastName">
+            </div>
+
+            <div>
+            <label for="instructorEmail">Email</label>
+            <input type="text" id="instructorEmail" name="instructorEmail">
+            </div>
+
+            <div>
             <label for="instructorUsername">Username</label>
             <input type="text" id="instructorUsername" name="instructorUsername">
+            </div>
+
+            <div>
             <label for="instructorPassword">Password</label>
             <input type="text" id="instructorPassword" name="instructorPassword">
-            <a href="signup">Click here to go back to login page</a>
+            </div>
+
+            <a href="/login">Click here to go back to login page</a>
             <button type="submit" id="signUp-Button">Submit</button>
         </form>
 

@@ -1,5 +1,10 @@
 # ignore node_modules
 /node_modules
+node_modules/
 
 # ignore package lock file
 package-lock.json
+Project/package-lock.json
+
+# ignore .DS_Store because Erin uses a MacBook
+.DS_Store
