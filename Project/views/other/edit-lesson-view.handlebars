@@ -1,0 +1,20 @@
+<main>
+<br>
+<form action='/lesson/{{id}}' method='POST'>
+	<label>Title</label>
+	<br>
+	<input type="text" class="lessonTitle" name="lessonTitle" value="{{lessonName}}"/>
+	<br>
+	<label for="lessonBody">Lesson</label>
+	<br>
+	<textarea class="lessonBody" name="lessonBody" rows="50" cols="100">{{lessonText}}</textarea>
+	
+	{{#each questions}}
+		<p>{{this.questionText}}</p>
+		<label>Answer&#10;<input type="text" name="question{{@index}}" value="{{this.reply}}"/></label>
+	{{/each}}
+	
+	<br>
+	<input type="submit" value="Save Changes"/>
+</form>
+</main>
