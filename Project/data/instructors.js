@@ -66,6 +66,12 @@ async function checkInstructor(username, pass){
 }
 
 //function test is used just to test individual functions to see if they work, seed file must be run first
+// async function test(){
+//     let instructor1verif = await checkInstructor("pathill14", "Password123")
+//     console.log("Instructor check:", instructor1verif)
+// }
+
+ //test()
 async function test(){
     let instructor1verif = await checkInstructor("pathill14", "Password123");
     console.log("Instructor check:", instructor1verif);

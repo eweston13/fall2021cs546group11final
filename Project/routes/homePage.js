@@ -10,7 +10,4 @@ router.get('/', async (req, res) => {
     res.render('other/home')
 })
 
-
-
-
 module.exports = router;

@@ -21,6 +21,3 @@ module.exports = {
     _connection.close();
   }
 };
-
-
-//sudo service mongod start
