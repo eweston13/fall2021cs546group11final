@@ -11,8 +11,19 @@
     <main class="container">
         <div class="row">
             <div class="col-sm-6">
-                <h1>This is the mainLogin handlebars layout</h1>       
-                   {{{body}}}
+                   <h1>Student logged in</h1>                 
+                    <div>
+                        <div class="topnav">
+                        <a href="/lesson">Lessons</a>
+                        <a href="/quiz">Quizzes</a>
+                        <a href="/grade">Grades</a>
+                        <a href="/settings">Settings</a>
+
+                    </div>
+                    <div>
+                        {{{body}}}
+                    </div>
+
             </div>
         </div>
     </main>
@@ -21,9 +32,7 @@
         crossorigin="anonymous"></script>
     {{!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script> --}}
-    {{!-- <script src="/public/js/form.js"></script> --}}
-    <script src="/public/js/quizCreate.js"></script> 
-
+    
 </body>
 
 </html>

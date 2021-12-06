@@ -4,17 +4,16 @@ const bcrypt = require('bcrypt');
 const saltRounds = 16;
 
 
-async function addStudent(firstName, lastName, email, username, password) {
+async function addStudent(firstName, lastName, email, username, password, lessonsViewed, quizzesCompleted) {
     
 
-    if(!username || !password) throw "Username and password both must be supplied";
-    if(username == ''.repeat(username.length)) throw "Username cannot be only spaces";
-    if(username.length < 4) throw "Username must be at least 4 letters long";
-    if(/^[a-zA-Z0-9]*$/.test(username) == false) throw "Username should be alphanumeric";
+    if(!username || !password) throw "Username and password both must be supplied"
+    if(username == ''.repeat(username.length)) throw "Username cannot be only spaces"
+    if(username.length < 4) throw "Username must be at least 4 letters long"
+    if(/^[a-zA-Z0-9]*$/.test(username) == false) throw "Username should be alphanumeric"
 
-    if(password.length < 6) throw "Password must be at least 6 letters long";
-    if(password.includes(' ')) throw "Password cannot contain a space";
-
+    if(password.length < 6) throw "Password must be at least 6 letters long"
+    if(password.includes(' ')) throw "Password cannot contain a space"
     const studentCollection = await students();
 
     let userExists = await studentCollection.findOne({username: username});
@@ -36,6 +35,21 @@ async function addStudent(firstName, lastName, email, username, password) {
     const newInsertInformation = await studentCollection.insertOne(newUser);
     if (newInsertInformation.insertedCount === 0) throw 'Insert failed!';
 
+    return {userInserted: true}
+}
+
+async function checkStudent(username, pass){
+
+    if(!username || !pass) throw "Username and password both must be supplied"
+    if(username == ''.repeat(username.length)) throw "Username cannot be only spaces"
+    if(username.length < 4) throw "Username must be at least 4 letters long"
+    if(/^[a-zA-Z0-9]*$/.test(username) == false) throw "Username should be alphanumeric"
+    if(pass < 6) throw "Password must be at least 6 letters long"
+    if(pass.includes(' ')) throw "Password cannot contain a space"
+
+    const studentCollection = await students()
+    username = username.toLowerCase()
+    let obj = await studentCollection.findOne({username: username})
     return {userInserted: true};
 }
 
@@ -75,11 +89,7 @@ async function test(){
 
 //test()
 
-
-
 module.exports = {
     addStudent,
     checkStudent
 }
-
-
