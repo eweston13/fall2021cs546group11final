@@ -51,60 +51,60 @@ module.exports = {
 
         for(let i=0;i<quizInfo.length;i++)
         {
-            if(!quizInfo[i]['question'])
+            if(!quizInfo[i].question)
             {
                 throw "The question is not provided";
             }
 
-            if(typeof quizInfo[i]['question'] !== "string")
+            if(typeof quizInfo[i].question !== "string")
             {
                 throw "The question should be a string";
             }
 
-            if(quizInfo[i]['question'].length == 0 || quizInfo[i]['question'].trim().length == 0)
+            if(quizInfo[i].question.length == 0 || quizInfo[i].question.trim().length == 0)
             {
                 throw "The question cannot be empty";
             }
 
-            if(Array.isArray(quizInfo[i]['options']) == false)
+            if(Array.isArray(quizInfo[i].options) == false)
             {
                 throw "The answer options field should be an array";
             }
 
-            if(quizInfo[i]['options'].length == 0)
+            if(quizInfo[i].options.length == 0)
             {
                 throw "The answer options field should not be empty";
             }
 
-            for(let j=0;j<quizInfo[i]['options'].length;j++)
+            for(let j=0;j<quizInfo[i].options.length;j++)
             {
-                if(!quizInfo[i]['options'][j]) 
+                if(!quizInfo[i].options[j]) 
                 {
                     throw "Please provide the answer option";
                 }
 
-                if(typeof quizInfo[i]['options'][j] !== "string")
+                if(typeof quizInfo[i].options[j] !== "string")
                 {
                     throw "The answer option should be a string";
                 }
 
-                if(quizInfo[i]['options'][j].length == 0 || quizInfo[i]['options'][j].trim().length == 0)
+                if(quizInfo[i].options[j].length == 0 || quizInfo[i].options[j].trim().length == 0)
                 {
                     throw "The answer option cannot be empty";
                 }
             }
 
-            if(!quizInfo[i]['correctAnswer'])
+            if(!quizInfo[i].correctAnswer)
             {
                 throw "The correctAnswer is not provided";
             }
 
-            if(typeof quizInfo[i]['correctAnswer'] !== "string")
+            if(typeof quizInfo[i].correctAnswer !== "string")
             {
                 throw "The correctAnswer should be a string";
             }
 
-            if(quizInfo[i]['correctAnswer'].length == 0 || quizInfo[i]['correctAnswer'].trim().length == 0)
+            if(quizInfo[i].correctAnswer.length == 0 || quizInfo[i].correctAnswer.trim().length == 0)
             {
                 throw "The correctAnswer cannot be empty";
             }

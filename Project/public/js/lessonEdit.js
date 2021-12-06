@@ -1,28 +1,6 @@
-<main>
-<br>
-<form action='/lesson/{{id}}' method='POST'>
-	<label for="lessonTitle">Title</label>
-	<br>
-	<input type="text" class="lessonTitle" name="lessonTitle" value="{{lessonName}}"/>
-	<br>
-	<label for="lessonTags">Tags</label>
-	<input type="text" name="lessonTags"/>
-	<!-- format this in the routes -->
-	<p>{{lessonTags}}</p>
-	<div id="lessonBody"></div>
-	
-	{{#each questions}}
-		<p>{{this.questionText}}</p>
-		<label>Answer&#10;<input type="text" name="question{{@index}}" value="{{this.reply}}"/></label>
-	{{/each}}
-	
-	<br>
-	<input type="submit" value="Save Changes"/>
-</form>
-</main>
+// this is largely from froala's documentation
 
-<script type="text/javascript">
-	FroalaEditor.DefineIcon('dropdown', {NAME: 'add', SVG_KEY: 'add'});
+FroalaEditor.DefineIcon('dropdown', {NAME: 'add', SVG_KEY: 'add'});
   	FroalaEditor.RegisterCommand('dropdown', {
     	title: 'Tool Icons',
     	type: 'dropdown',
@@ -53,4 +31,3 @@
 		toolbarButtons: ['bold','italic','underline','|','paragraphFormat','formatOL','formatUL','specialCharacters','dropdown','|','print'],
 		quickInsertEnabled: false
 	});
-</script>
