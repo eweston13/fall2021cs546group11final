@@ -10,7 +10,8 @@ router.post('/', async (req, res) => {
 
     const new_quizData = req.body;
 
-    if(!new_quizData.quizName) {
+    if(!new_quizData.quizName)
+    {
       res.status(400).json({ error: 'The quizName is not provided' });
       return;
     }
