@@ -1,47 +1,55 @@
 const loginPage = require('./loginPage');
 const signupPage = require('./signupPage');
 const homePage = require('./homePage');
+const studenthomePage = require('./studenthome');
 const lessonPage = require('./lessons');
+const quizPage = require('./quizzes')
+const quizEditPostPage = require('./quizEditPost')
 
-const redirectHome = (req, res, next) => {
+// const redirectHome = (req, res, next) => {
   
- // console.log(req.originalUrl)
+//  // console.log(req.originalUrl)
 
-  if(req.session.username){
-    if(req.originalUrl == '/home'){
-      return next()
-    }else{
-      return res.redirect("/home");
-    }
-  }else{
-    return res.redirect('/login');
-  }
-  next()
+//   if(req.session.username){
+//     if(req.originalUrl == '/home'){
+//       return next()
+//     }else{
+//       return res.redirect("/home");
+//     }
+//   }else{
+//     return res.redirect('/login');
+//   }
+//   next()
 
-}
+// }
 
-const redirectLogin = (req, res, next) => {
+// const redirectLogin = (req, res, next) => {
    
-   if(req.session.username){
-     if(req.originalUrl == '/home'){
-       return next()
-     }else{
-       return res.redirect("/home");
-     }
-   }else{
-     return next()
-   }
-   next()
- }
+//    if(req.session.username){
+//      if(req.originalUrl == '/home'){
+//        return next()
+//      }else{
+//        return res.redirect("/home");
+//      }
+//    }else{
+//      return next()
+//    }
+//    next()
+//  }
  
-
 const constructorMethod = (app) => {
-    app.use('/login', redirectLogin, loginPage);
-    app.use('/signup', redirectHome, signupPage);
+    app.use('/login', loginPage);
+    app.use('/signup', signupPage);
     app.use('/lesson', lessonPage);
-    app.use('/home', redirectHome, homePage);
+    app.use('/home', homePage);
+    app.use('/studenthome', studenthomePage);
+    app.use('/quiz', quizPage)
+    app.use('/quizEditPost', quizEditPostPage)
+
   
-    app.use('*', redirectHome)
+    app.use('*', (req, res) => {
+      res.redirect('/login')
+    })
   };
   
   module.exports = constructorMethod;

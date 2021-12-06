@@ -39,7 +39,7 @@ async function addInstructor(firstName, lastName, email, username, password) {
 
 async function checkInstructor(username, pass){
 
-
+//    console.log("pass: ", pass)
     if(!username || !pass) throw "Username and password both must be supplied";
     if(username == ''.repeat(username.length)) throw "Username cannot be only spaces";
     if(username.length < 4) throw "Username must be at least 4 letters long";
@@ -55,7 +55,7 @@ async function checkInstructor(username, pass){
     try{
         passCheck = await bcrypt.compare(pass, obj.password);
     }catch(e){
-        console.log(e);
+        throw "Either the username or password is invalid";
     }
 
     if(passCheck && username == obj.username){
