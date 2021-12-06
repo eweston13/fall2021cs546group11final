@@ -1,0 +1,18 @@
+<!-- this view is for students taking a quiz -->
+
+<h1>{{quizTitle}}</h2>
+
+<form id="quiz">
+
+{{#each questions}}
+<label for="question{{@index}}">{{this.question}}</label>
+<input type="radio" name="question{{@index}}" value="A">
+<input type="radio" name="question{{@index}}" value="B">
+<input type="radio" name="question{{@index}}" value="C">
+<input type="radio" name="question{{@index}}" value="D">
+<br>
+{{/each}}
+
+<input type="submit">
+
+</form>

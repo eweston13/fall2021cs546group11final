@@ -179,7 +179,7 @@ router.get('/:id', async (req, res) => {
     try {
         const quizInfo = await quizData.getQuizById(req.params.id);
         console.log(quizInfo);
-        res.json(quizInfo);
+        res.render('other/quiz-view', {quizTitle: quizInfo.quizName, questions: quizInfo.quizData});
       } catch (e) {
         res.status(404).json({ message: 'Quiz not found!' });
       }

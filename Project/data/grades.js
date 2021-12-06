@@ -12,6 +12,11 @@ module.exports = {
     {
         
     },
+    
+    async getGrades(id) {
+    	// get grades for student with ID id
+    	
+    }
 
     async editGrades(id,grade)
     {
