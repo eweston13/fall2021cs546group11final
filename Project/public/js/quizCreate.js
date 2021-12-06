@@ -38,7 +38,7 @@
         //ajax post to create quiz
         $.ajax({
             type: "POST",
-            url: '/quizzes',
+            url: '/quiz',
             data: $('#quizInit')
         })
 
