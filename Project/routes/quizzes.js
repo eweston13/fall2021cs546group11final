@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
 });
 //-------------GET QUIZ INFO BY ID (FOR INSTRUCTORS)--------------//
 
-router.get('/:id', async (req, res) => {
+router.get('/view/:id', async (req, res) => {
 
     const id = req.params.id;
   

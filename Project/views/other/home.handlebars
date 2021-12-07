@@ -1,10 +1,40 @@
 <!-- display relevant lesson list -->
 
-<h1 id="studentHeading" hidden>Recently Viewed</h1>
-<h1 id="instructorHeading" hidden>My Lessons</h1>
+<div>
+<!-- for students this is recently viewed, for instructors it's owned lessons -->
+<h2>{{heading}}</h2>
 
 <ul>
-	{{#each lessonList}}
-		<li><a href="/lesson/{{this.id}}">{{this.name}}</a></li>
+	{{#each firstLessonList}}
+		<li><a href="/lesson/view/{{this.id}}">{{this.name}}</a></li>
 	{{/each}}
 </ul>
+</div>
+
+<!-- this list appears to students only -->
+<div>
+<h2 hidden>All Lessons</h2>
+
+<form id="search">
+	<label>Search <input type="text" name="searchTerm"/></label>
+	<input type="submit"/>
+</form>
+
+<ul>
+	{{#each secondLessonList}}
+		<li><a href="/lesson/view/{{this.id}}">{{this.name}}</a></li>
+	{{/each}}
+</ul>
+
+</div>
+
+<!-- this is a list of quizzes (all quizzes for students, owned quizzes for professors) -->
+<div>
+	<h2>Quizzes</h2>
+	
+	<ul>
+		{{#each quizList}}
+			<li><a href="/quiz/view/{{this.id}}">{{this.name}}</a><li>
+		{{/each quizList}}
+	</ul>
+</div>
