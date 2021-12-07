@@ -42,11 +42,13 @@
         //ajax post to create quiz
        // console.log($('#quizInit').serialize())
        event.preventDefault()
-
+       $('#error').find('p').remove()
+       
        var questionArr = []
 
         for(var i = 0; i < questionCounter; i++){
             questionArr.push({
+                quizTitle: $('#quizTitle').val(),
                 questionId: i, 
                 question: $(`#question${i}`).val(), 
                 correctAns: $(`#correctAns${i}`).val(),
@@ -58,23 +60,62 @@
         
         //Shift is to remove the initial empty list element when first pressing to add a question
         questionArr.shift()
-        questionArr.unshift({quiztitle: $('#quizTitle').val()})
+        // questionArr.unshift({quiztitle: $('#quizTitle').val()})
+
+        var error = false
+        for(const obj of questionArr){
+            if(!obj.quizTitle || obj.quizTitle == ' '.repeat(obj.quizTitle.length)){
+                $('#error').append('<p>Cannot have empty quiz title</p>')
+                error = true
+                return
+            }
+            if(!obj.question || obj.question == ' '.repeat(obj.question.length)){
+                $('#error').append('<p>Cannot have any empty fields or just spaces for question</p>')
+                error = true
+                return
+            }
+            if(!obj.correctAns || obj.correctAns == ' '.repeat(obj.correctAns.length)){
+                $('#error').append('<p>Cannot have any empty fields or just spaces for the correct answer</p>')
+                error = true
+                return
+            }else if( !['A', 'B', 'C', 'D'].includes(obj.correctAns) ){
+                $('#error').append('<p>Correct Answer must be A, B, C, or D</p>')
+                return 
+            }   
+            if(!obj.A || obj.A == ' '.repeat(obj.A.length)){
+                $('#error').append('<p>Cannot have any empty fields or just spaces for option</p>')
+                error = true
+                return
+            }
+            if(!obj.B || obj.B == ' '.repeat(obj.B.length)){
+                $('#error').append('<p>Cannot have any empty fields or just spaces for option</p>')
+                error = true
+                return
+            }
+            if(!obj.C || obj.C == ' '.repeat(obj.C.length)){
+                $('#error').append('<p>Cannot have any empty fields or just spaces for option</p>')
+                error = true
+                return
+            }
+            if(!obj.D || obj.D == ' '.repeat(obj.D.length)){
+                $('#error').append('<p>Cannot have any empty fields or just spaces for option</p>')
+                error = true
+                return
+            }
+        }
+
+        error = false 
+
         console.log(questionArr)
 
-
-        // $('#questionList').children().each((i, e) => {
-        //     console.log($(e).find(`#question${i+1}`).val())
-        //     console.log($(e).find(`#${i+1}A`).val())
-        //     console.log($(e).find(`#${i+1}B`).val())
-        //     console.log($(e).find(`#${i+1}C`).val())
-        //     console.log($(e).find(`#${i+1}D`).val())
-        // })
-
-        // $.ajax({
-        //     type: "POST",
-        //     url: '/quiz',
-        //     data: questionArr
-        // })
+        if(!error){
+            $.ajax({
+                method: "POST",
+                contentType: 'application/json',
+                url: '/quiz',
+                data: JSON.stringify(questionArr)
+            })
+        }
 
     })
     

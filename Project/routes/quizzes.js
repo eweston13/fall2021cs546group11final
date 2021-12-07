@@ -7,9 +7,12 @@ const { ObjectId } = require('mongodb');
 //-----------------CREATE A QUIZ (FOR INSTRUCTORS)----------------//
 
 router.post('/', async (req, res) => {
+    console.log("The req.body:", req.body)
+    console.log("The req.body[0]:", req.body[0])
+    console.log("The req.body[0].quizTitle:", req.body[0].quizTitle)
 
     const new_quizData = req.body;
-
+    
     if(!new_quizData.quizName)
     {
       res.status(400).json({ error: 'The quizName is not provided' });
