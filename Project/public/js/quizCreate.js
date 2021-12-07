@@ -46,6 +46,7 @@
        
        var questionArr = []
 
+
         for(var i = 1; i < questionCounter; i++){
             questionArr.push({
                 quizTitle: $('#quizTitle').val(),
@@ -70,7 +71,7 @@
                 return
             }
             if(!obj.question || obj.question == ' '.repeat(obj.question.length)){
-                $('#error').append('<p>Cannot have any empty fields or just spaces for question</p>')
+                $('#error').append('<p>Cannot have any empty fields orajax method objectust spaces for question</p>')
                 error = true
                 return
             }
@@ -115,6 +116,9 @@
                 url: '/quiz',
                 data: JSON.stringify(questionArr)
             })
+
+           window.location = '/home'
+
         }
 
     })
