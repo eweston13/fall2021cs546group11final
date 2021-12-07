@@ -46,7 +46,7 @@
        
        var questionArr = []
 
-        for(var i = 0; i < questionCounter; i++){
+        for(var i = 1; i < questionCounter; i++){
             questionArr.push({
                 quizTitle: $('#quizTitle').val(),
                 questionId: i, 
@@ -59,7 +59,7 @@
         }
         
         //Shift is to remove the initial empty list element when first pressing to add a question
-        questionArr.shift()
+//        questionArr.shift()
         // questionArr.unshift({quiztitle: $('#quizTitle').val()})
 
         var error = false
