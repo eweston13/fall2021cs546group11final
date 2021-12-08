@@ -126,6 +126,23 @@ const getRecentlyViewed = async (studentId) => {
 	return lessonList;
 }
 
+const getStudentId = async (username) => {
+	// validation
+	if (!username) throw `Username not provided`;
+	if (typeof username != 'string') throw `Username must be an alphanumeric string`;
+	if (username.trim().length == 0) throw `Username cannot be empty`;
+	for (let i=0; i<username.length; i++) {
+		if (username.charCodeAt(i) < 48 || (username.charCodeAt(i) > 57 && username.charCodeAt(i) < 65) || (username.charCodeAt(i) > 90 && username.charCodeAt(i) < 97) || username.charCodeAt(i) > 122) throw `Username must be an alphanumeric string`;
+	}
+	
+	const studentCollection = await students();
+	const student = await studentCollection.findOne({username: username});
+	if (student === null) throw `Could not find student ${username}`;
+	
+	return student._id.toString();
+	
+}
+
 //function test is used just to test individual functions to see if they work, seed file must be run first
 async function test(){
     let student1verif = await checkStudent("udaySama17", "Password");
@@ -138,5 +155,6 @@ module.exports = {
     addStudent,
     checkStudent,
     addViewedLesson,
-    getRecentlyViewed
+    getRecentlyViewed,
+    getStudentId
 }
