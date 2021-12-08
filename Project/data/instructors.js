@@ -27,7 +27,8 @@ async function addInstructor(firstName, lastName, email, username, password) {
     	email: email,
     	username: username.toLowerCase(),
     	password: await bcrypt.hash(password, saltRounds),
-    	lessonsCreated: []
+    	lessonsCreated: [],
+    	quizzesCreated: []
     };
 
     const newInsertInformation = await instructorCollection.insertOne(newUser);

@@ -1,5 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const students = mongoCollections.students;
+const lessons = mongoCollections.lessons;
+const ObjectId = require('mongodb').ObjectId;
 const bcrypt = require('bcrypt');
 const saltRounds = 16;
 
@@ -28,7 +30,8 @@ async function addStudent(firstName, lastName, email, username, password, lesson
     	username: username.toLowerCase(),
     	password: await bcrypt.hash(password, saltRounds),
    		lessonsViewed: [],
-    	quizzesCompleted: []
+    	quizzesCompleted: [],
+    	questionsAsked: []
     };
 
     //REMEMBER TO MAKE USERNAMES LOWERCASE
@@ -81,6 +84,48 @@ async function checkStudent(username, pass){
 
 }
 
+const addViewedLesson = async (studentId, lessonId) => {
+	// validation functions later
+	
+	const studentCollection = await students();
+	const convertedStudent = new ObjectId(studentId);
+	
+	const student = await studentCollection.findOne({_id: convertedStudent});
+	student.lessonsViewed.unshift(lessonId);
+	if (student.lessonsViewed.length == 11) student.lessonsViewed.pop();
+	
+	const updateStudentInfo = await studentCollection.updateOne(
+		{_id: convertedStudent},
+		{$set: student}
+	);
+	
+	if (updateStudentInfo.modifiedCount === 0) throw `Could not add lesson to student's recently viewed`;
+	
+	return {lessonAdded: true};
+	
+}
+
+const getRecentlyViewed = async (studentId) => {
+	// validation functions later
+	
+	const studentCollection = await students();
+	const convertedStudent = new ObjectId(studentId);
+	
+	const student = await studentCollection.findOne({_id: convertedStudent});
+	if (student === null) throw `Could not find student ${studentId}`;
+	
+	const lessonCollection = await lessons();
+	let lessonList = [];
+	
+	for (let i=0; i<student.lessonsViewed.length; i++) {
+		let lessonId = new ObjectId(student.lessonsViewed[i]);
+		let lesson = await lessonCollection.findOne({_id: lessonId});
+		lessonList.push({id: student.lessonsViewed[i], name: lesson.name});
+	}
+	
+	return lessonList;
+}
+
 //function test is used just to test individual functions to see if they work, seed file must be run first
 async function test(){
     let student1verif = await checkStudent("udaySama17", "Password");
@@ -91,5 +136,7 @@ async function test(){
 
 module.exports = {
     addStudent,
-    checkStudent
+    checkStudent,
+    addViewedLesson,
+    getRecentlyViewed
 }

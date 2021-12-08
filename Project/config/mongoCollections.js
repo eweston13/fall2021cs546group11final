@@ -18,5 +18,6 @@ module.exports = {
   students: getCollectionFn('students'),
   instructors: getCollectionFn('instructors'),
   quizzes: getCollectionFn('quizzes'),
-  lessons: getCollectionFn('lessons')
+  lessons: getCollectionFn('lessons'),
+  questions: getCollectionFn('questions')
 };
