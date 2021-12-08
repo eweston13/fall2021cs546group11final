@@ -23,8 +23,16 @@ router.get('/view/:id', async (req, res) => {
 		validateId(quizId);
 		
 		const quiz = await quizData.getQuizById(quizId);
-		res.render('other/quiz-view', {quizTitle: quiz.quizName, questions: quiz.quizData});
+		
+		let questions = [];
+		
+		for (let i=0; i<quiz.quizData.length; i++) {
+			questions.push({question: quiz.quizData[i].question, option1: quiz.quizData[i].options[0], option2: quiz.quizData[i].options[1], option3: quiz.quizData[i].options[2], option4: quiz.quizData[i].options[3]});
+		}
+		
+		res.render('other/quiz-view', {quizTitle: quiz.quizName, questions: questions});
 	} catch (e) {
+		console.log(e);
 		res.json({error: e}).send();
 	}
 });

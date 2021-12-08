@@ -108,6 +108,58 @@ const editQuiz = async (quizId, quizInfo) => {
 	
 }
 
+const getMyQuizzes = async (id) => {
+	validateDBID(id);
+	
+	const instructorCollection = await instructors();
+	const authorId = new ObjectId(id);
+	const author = await instructorCollection.findOne({_id: authorId});
+	if (author === null) throw `Author not found`;
+	
+	const quizCollection = await quizzes();
+	let quizList = [];
+	
+	for (let i=0; i<author.quizzesCreated.length; i++) {
+		let quizId = new ObjectId(author.quizzesCreated[i]);
+		let quiz = await quizCollection.findOne({_id: quizId});
+		quizList.push({id: author.quizzesCreated[i], name: quiz.quizName});
+	}
+	
+	return quizList;
+	
+}
+
+const getSomeQuizzes = async (num) => {
+	if (!num) throw `Must provide number of quizzes to return`;
+	if (typeof num != 'number') throw `num must be a number`;
+	if (num < 1) throw `Okay so that won't return anything`;
+	
+	const quizCollection = await quizzes();
+	const quizList = await quizCollection.find({}).toArray();
+	
+	let formattedQuizzes = [];
+	
+	let limit = Math.min(num, quizList.length);
+	
+	for (let i=0; i<limit; i++) {
+		formattedQuizzes.push({id: quizList[i]._id.toString(), name: quizList[i].quizName});
+	}
+	
+	return formattedQuizzes;
+}
+
+const getQuizById = async (id) => {
+	validateDBID(id);
+	
+	const quizCollection = await quizzes();
+	const quizId = new ObjectId(id);
+	
+	const quiz = await quizCollection.findOne({_id: quizId});
+	if (quiz === null) throw `Could not find quiz ${id}`;
+	
+	return quiz;
+}
+
 //--------------------- GRADE QUIZ (STUDENTS) ---------------------//
 const gradeQuiz = async (quizId, studentId, quizData) => {
 	// quizData should be in the form of an array consisting of characters A, B, C, and D to compare against correctAnswers
@@ -148,6 +200,9 @@ const gradeQuiz = async (quizId, studentId, quizData) => {
 module.exports = {
 	createQuiz,
 	editQuiz,
+	getMyQuizzes,
+	getSomeQuizzes,
+	getQuizById,
 	gradeQuiz
 
 /*

@@ -191,10 +191,39 @@ const addReply = async (questionId, reply) => {
 	return {replyAdded: true};
 }
 
+const getAllLessons = async () => {
+	const lessonCollection = await lessons();
+	const lessonList = await lessonCollection.find({}).toArray();
+	
+	return lessonList;
+}
+
+const getSomeLessons = async (num) => {
+	if (!num) throw `Must provide number of lessons to return`;
+	if (typeof num != 'number') throw `num must be a number`;
+	if (num < 1) throw `Okay so that won't return anything`;
+	
+	const lessonCollection = await lessons();
+	const lessonList = await lessonCollection.find({}).toArray();
+	
+	let formattedLessons = [];
+	
+	let limit = Math.min(num, lessonList.length);
+	
+	for (let i=0; i<limit; i++) {
+		console.log(lessonList[i]);
+		formattedLessons.push({id: lessonList[i]._id.toString(), name: lessonList[i].name});
+	}
+	
+	return formattedLessons;
+}
+
 module.exports = {
 	createLesson,
 	getLesson,
 	getMyLessons,
 	addQuestion,
-	addReply
+	addReply,
+	getAllLessons,
+	getSomeLessons
 }
