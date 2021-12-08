@@ -3,8 +3,9 @@ const signupPage = require('./signupPage');
 const homePage = require('./homePage');
 const studenthomePage = require('./studenthome');
 const lessonPage = require('./lessons');
-const quizPage = require('./quizzes')
-const quizEditPostPage = require('./quizEditPost')
+const quizPage = require('./quizzes');
+const quizEditPostPage = require('./quizEditPost');
+const signOut = require('./signout');
 
 // const redirectHome = (req, res, next) => {
   
@@ -43,9 +44,9 @@ const constructorMethod = (app) => {
     app.use('/lesson', lessonPage);
     app.use('/home', homePage);
     app.use('/studenthome', studenthomePage);
-    app.use('/quiz', quizPage)
-    app.use('/quizEditPost', quizEditPostPage)
-
+    app.use('/quiz', quizPage);
+    app.use('/quizEditPost', quizEditPostPage);
+	app.use('/signout', signOut)
   
     app.use('*', (req, res) => {
       res.redirect('/login')

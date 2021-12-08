@@ -218,6 +218,18 @@ const getSomeLessons = async (num) => {
 	return formattedLessons;
 }
 
+const getAuthorId = async (lessonId) => {
+	validateDBID(lessonId);
+	
+	const lessonCollection = await lessons();
+	const id = new ObjectId(lessonId);
+	const lesson = await lessonCollection.findOne({_id: id});
+	if (lesson === null) throw `Lesson not found`;
+	
+	return lesson.authorId;
+	
+}
+
 module.exports = {
 	createLesson,
 	getLesson,
@@ -225,5 +237,6 @@ module.exports = {
 	addQuestion,
 	addReply,
 	getAllLessons,
-	getSomeLessons
+	getSomeLessons,
+	getAuthorId
 }

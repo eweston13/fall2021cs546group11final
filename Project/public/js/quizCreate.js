@@ -32,7 +32,7 @@
         $('#questionList').append(question)
 
 
-        questionCounter++
+        questionCounter++;
         //console.log('test: ', $('#quizInit'))
         // $('#questionList').append('<li>Test</li>')
     })
@@ -41,10 +41,11 @@
     $('#quizInit').submit(function(event) {
         //ajax post to create quiz
        // console.log($('#quizInit').serialize())
-       event.preventDefault()
-       $('#error').find('p').remove()
+       event.preventDefault();
+       $('#error').find('p').remove();
+       console.log('QUIZ SUBMITTED');
        
-       var questionArr = []
+       var questionArr = [];
 
 
         for(var i = 1; i < questionCounter; i++){
@@ -56,14 +57,14 @@
                 A: $(`#${i}A`).val(), 
                 B: $(`#${i}B`).val(),
                 C: $(`#${i}C`).val(),
-                D: $(`#${i}D`).val()})
+                D: $(`#${i}D`).val()});
         }
         
         //Shift is to remove the initial empty list element when first pressing to add a question
 //        questionArr.shift()
         // questionArr.unshift({quiztitle: $('#quizTitle').val()})
 
-        var error = false
+        var error = false;
         for(const obj of questionArr){
             if(!obj.quizTitle || obj.quizTitle == ' '.repeat(obj.quizTitle.length)){
                 $('#error').append('<p>Cannot have empty quiz title</p>')
@@ -105,7 +106,7 @@
             }
         }
 
-        error = false 
+        error = false;
 
         console.log(questionArr)
 
@@ -113,11 +114,12 @@
             $.ajax({
                 method: "POST",
                 contentType: 'application/json',
-                url: '/quiz',
+                url: '/quizEditPost/quizCreate',
                 data: JSON.stringify(questionArr)
             })
+            console.log('no error');
 
-           window.location = '/home'
+           window.location = url;
 
         }
 

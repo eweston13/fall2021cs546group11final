@@ -89,14 +89,14 @@ async function getInstructorName (id) {
 	return instructor.username;
 }
 
-async function getInstructorID (username) {
+async function getInstructorId (username) {
 	// this is to get the id of instructor with a username
 	const instructorCollection = await instructors();
 	
 	const instructor = await instructorCollection.findOne({username: username});
 	
 	if (instructor === null) return 'Deleted User';
-	return instructor._id;
+	return instructor._id.toString();
 }
 
 
@@ -105,5 +105,5 @@ module.exports = {
     addInstructor,
     checkInstructor,
     getInstructorName, 
-    getInstructorID
+    getInstructorId
 };
