@@ -3,7 +3,64 @@ const router = express.Router();
 const data = require('../data');
 const quizData = data.quizzes;
 const instructorData = data.instructors
-const { ObjectId } = require('mongodb');
+
+// validation
+function validateId(id) {
+	if (!id) throw `No ID provided`;
+	if (typeof id != 'string') throw `ID must be a string`;
+	if (id.length != 24) throw `ID's must be 24-character alphanumeric strings`;
+	for (let i=0; i<id.length; i++) {
+		let A = id.charCodeAt(i);
+		if (A<48 || (A>57 && A<97) || A>122) throw `ID must consist of numbers and lowercase letters`;
+	}
+}
+
+// routes
+//----------------- VIEW A QUIZ (STUDENTS) -----------------//
+router.get('/view/:id', async (req, res) => {
+	const quizId = req.params.id;
+	try {
+		validateId(quizId);
+		
+		const quiz = await quizData.getQuizById(quizId);
+		
+		let questions = [];
+		
+		for (let i=0; i<quiz.quizData.length; i++) {
+			questions.push({question: quiz.quizData[i].question, option1: quiz.quizData[i].options[0], option2: quiz.quizData[i].options[1], option3: quiz.quizData[i].options[2], option4: quiz.quizData[i].options[3]});
+		}
+		
+		res.render('other/quiz-view', {quizTitle: quiz.quizName, questions: questions});
+	} catch (e) {
+		console.log(e);
+		res.json({error: e}).send();
+	}
+});
+
+//----------------- SUBMIT QUIZ ATTEMPT (STUDENTS) -----------------//
+router.post('/view/:id', async (req, res) => {
+	console.log(req.body);
+});
+
+//----------------- EDIT QUIZ VIEW (INSTRUCTORS) -----------------//
+router.get('/edit/:id', async (req, res) => {
+	
+});
+
+//----------------- EDIT QUIZ (INSTRUCTORS) -----------------//
+router.post('/edit/:id', async (req, res) => {
+	console.log(req.body);
+});
+
+//----------------- CREATE NEW QUIZ (INSTRUCTORS) -----------------//
+router.post('/new', async (req, res) => {
+	console.log(req.body);
+});
+
+
+// old routes
+
+/*
 
 //-----------------CREATE A QUIZ (FOR INSTRUCTORS)----------------//
 
@@ -41,7 +98,7 @@ router.post('/', async (req, res) => {
 });
 //-------------GET QUIZ INFO BY ID (FOR INSTRUCTORS)--------------//
 
-router.get('/:id', async (req, res) => {
+router.get('/view/:id', async (req, res) => {
 
     const id = req.params.id;
   
@@ -344,4 +401,6 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({ error: e});
     }
 });
+*/
+
   module.exports = router;

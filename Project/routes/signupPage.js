@@ -51,10 +51,10 @@ router.post('/instructorSignup', async (req, res) => {
 
   console.log(newUser.userInserted)
 
-  if(newUser.userInserted == true){
-    res.redirect("/login")
+  if(newUser){
+    res.redirect("/login");
   }else{
-    res.json('error')
+    res.json('error');
   }
 
 });
