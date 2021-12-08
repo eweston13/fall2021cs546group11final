@@ -1,6 +1,6 @@
 const mongoCollections = require('./../config/mongoCollections');
 const instructors = mongoCollections.instructors;
-const students = mongoCollection.students;
+const students = mongoCollections.students;
 const lessons = mongoCollections.lessons;
 const questions = mongoCollections.questions;
 const ObjectId = require('mongodb').ObjectId;
@@ -70,7 +70,7 @@ const createLesson = async (name, author, body, tags) => {
 	// now add lesson Id to instructor's list
 	const instructorCollection = await instructors();
 	
-	const convertedAuthor = ObjectId(author);
+	const convertedAuthor = new ObjectId(author);
 	let lessonAuthor = await instructorCollection.findOne({_id: convertedAuthor});
 	lessonAuthor.lessonsCreated.push(lessonId);
 	

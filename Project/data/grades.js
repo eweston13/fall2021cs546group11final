@@ -5,6 +5,7 @@ const students = mongoCollections.students;
 
 const ObjectId = require('mongodb').ObjectId;
 
+// validation functions
 function checkId (id) {
 	if (!id) throw `No ID provided`;
 	if (typeof id != 'string') throw `ID's must be 24-character alphanumeric strings`;
@@ -15,37 +16,38 @@ function checkId (id) {
 	}
 }
 
+// db functions
+
+const createGrades = async (studentId, quizId, grade) => {
+
+}
+
+const getGrades = async (id) => {
+	// get grades for student with ID id
+	checkId(id);
+	
+    const studentCollection = await students();
+    const studentId = new ObjectId(id);
+    	
+    const student = await studentCollection.findOne({_id: studentId});
+    	
+    if (student === null) throw `Couldn't find student ${id}`;
+    	
+    return student.quizzesCompleted;
+    	
+}
+
+const editGrades = async (studentId, quizId, grade) => {
+
+}
+
+const removeGrades = async (studentId) => {
+
+}
+
 module.exports = {
-
-//--------------CREATE GRADES----------------//
-
-    async createGrades(studentName,quizName,grade)
-    {
-        
-    },
-    
-//-------------RETRIEVE GRADES---------------//
-    
-    async getGrades(id) {
-    	// get grades for student with ID id
-    	const studentCollection = await students();
-    	const studentId = new ObjectId(id);
-    	
-    	const student = await studentCollection.findOne({_id: studentId});
-    	
-    	if (student === null) throw `Couldn't find student ${id}`;
-    	
-    	return student.quizzesCompleted;
-    	
-    }
-
-    async editGrades(id, grade)
-    {
-
-    },
-
-    async removeGrades()
-    {
-        
-    }
+	createGrades,
+	getGrades,
+	editGrades,
+	removeGrades
 }

@@ -7,7 +7,7 @@ const instructorData = require('../data/instructors')
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    res.render('other/home', {layout: "studentLogin"})
+    res.render('other/home', {layout: "studentLogin", heading: 'Recently Viewed', firstLessonList: [], secondLessonList: [], quizList: []});
 })
 
 module.exports = router;
