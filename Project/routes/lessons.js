@@ -36,7 +36,11 @@ router.get('/view/:id', async (req, res) => {
 	const title = lesson.name;
 	const authorId = lesson.authorId;
 	const body = lesson.body;
-	const tags = lesson.tags;
+	let tags = '';
+	for (let i=0; i<lesson.tags.length; i++) {
+		if (i==0) tags = lesson.tags[i];
+		else tags = tags + ', ' + lesson.tags[i];
+	}
 	const questions = lesson.questions; // haven't added this to the handlebars yet lol
 	
 	const relatedLessons = await lessonsData.getMyLessons(authorId);
@@ -49,21 +53,25 @@ router.get('/view/:id', async (req, res) => {
 		authorName = ''; // not sure if a deleted instructor should be left blank or indicate the instructor is no longer in the database
 	}
 	
-	res.render('other/lesson-view', {extraStyles: '', lessons: relatedLessons, lessonName: title, authorName: authorName, lessonText: body});
+	res.render('other/lesson-view', {extraStyles: '', lessons: relatedLessons, lessonName: title, authorName: authorName, lessonText: body, lessonTags: tags, questions: questions});
 });
 
 //------------------------------ EDIT LESSON ID ------------------------------//
 router.get('/edit/:id', async (req, res) => {
 	// edit lesson view of lesson :id
-	const lessonId = req.params.id;
-	const lesson = await lessonsData.getLesson(lessonId);
+	try {
+		const lessonId = req.params.id;
+		const lesson = await lessonsData.getLesson(lessonId);
 	
-	const title = lesson.name;
-	const body = lesson.body;
-	const tags = lesson.tags;
-	const questions = lesson.questions;
+		const title = lesson.name;
+		const body = lesson.body;
+		const tags = lesson.tags;
+		const questions = lesson.questions;
 	
-	res.render('other/edit-lesson-view', {extraStyles: '<link rel="stylesheet" href="../../public/css/lesson-edit-styles.css">', endpoint: `edit/${lessonId}`, lessonName: title, lessonTags: tags, lessonText: body, questions: questions});
+		res.render('other/edit-lesson-view', {extraStyles: '<link rel="stylesheet" href="../../public/css/lesson-edit-styles.css">', endpoint: `edit/${lessonId}`, lessonName: title, lessonTags: tags, lessonText: body, questions: questions});
+	} catch (e) {
+		console.log(e);
+	}
 });
 
 //------------------------------ EDIT LESSON ID ------------------------------//
@@ -75,6 +83,7 @@ router.post('/edit/:id', async (req, res) => {
 	// need to collect questions and replies
 	
 	// update lesson
+	res.redirect('/home');
 });
 
 //------------------------------ CREATE NEW LESSON ------------------------------//

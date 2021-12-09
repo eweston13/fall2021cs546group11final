@@ -119,17 +119,21 @@ app.use('/studenthome', (req, res, next) =>{
 });
 
 app.use('/lesson/edit/:id', async (req, res, next) => {
-	if (!req.session.user) res.redirect('/login');
-	else if (req.session.user != 'instructor') res.redirect('/home');
+	const id = req.params.id;
+	
+	if (!req.session.user) res.redirect(`/lesson/view/${id}`);
+	else if (req.session.user != 'instructor') res.redirect(`/lesson/view/${id}`);
 	else {
-		const lessonAuthor = await lessonData.getAuthorId(req.params.id);
-		if (lessonAuthor != req.session.userId) res.redirect('/home');
+		const lessonAuthor = await lessonData.getAuthorId(id);
+		if (lessonAuthor != req.session.userId) res.redirect(`/lesson/view/${id}`);
+		else next();
 	}
 });
 
 app.use('/lesson/new', (req, res, next) => {
 	if (!req.session.user) res.redirect('/login');
 	if (req.session.user != 'instructor') res.redirect('/home');
+	else next();
 });
 
 app.use('/', (req, res, next) =>{
