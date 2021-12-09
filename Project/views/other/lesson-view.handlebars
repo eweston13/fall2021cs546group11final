@@ -11,4 +11,14 @@
 	<h2>Author: {{authorName}}</h2>
 	<p id="lessonTags">{{lessonTags}}</p>
 	<p>{{{lessonText}}}</p>
+	
+	<form id="askQuestion">
+		<label>Ask Question<br><input type="text" name="question"></label>
+		<input type="submit">
+	</form>
+	
+	{{#each questions}}
+		<h4>{{this.question}}</h4>
+		<p>{{this.reply}}</h4>
+	{{/each}}
 </main>

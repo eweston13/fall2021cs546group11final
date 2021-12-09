@@ -37,10 +37,14 @@ function validateTags (tags) {
 const createLesson = async (name, author, body, tags) => {
 	// this function creates a new lesson object and sends it to the database
 	// validate first
-	validateTextInput(name);
-	validateDBID(author);
-	validateTextInput(body);
-	validateTags(tags);
+	try {
+		validateTextInput(name);
+		validateDBID(author);
+		validateTextInput(body);
+		validateTags(tags);
+	} catch (e) {
+		throw (e);
+	}
 	
 	const lessonCollection = await lessons();
 	
@@ -86,7 +90,11 @@ const createLesson = async (name, author, body, tags) => {
 const getLesson = async (id) => {
 	// this function gets a specific lesson object with ID of id
 	// validate first
-	validateDBID(id);
+	try {
+		validateDBID(id);
+	} catch (e) {
+		throw e;
+	}
 	
 	const lessonCollection = await lessons();
 	let convertedId = new ObjectId(id);
@@ -100,7 +108,11 @@ const getLesson = async (id) => {
 const getMyLessons = async (id) => {
 	// this function gets all lessons created by the instructor with the ID of id
 	// validate authorId
-	validateDBID(id);
+	try {
+		validateDBID(id);
+	} catch (e) {
+		throw e;
+	}
 	
 	let convertedId = new ObjectId(id);
 	const instructorCollection = await instructors();
@@ -127,9 +139,13 @@ const getMyLessons = async (id) => {
 
 const addQuestion = async (lessonId, studentId, question) => {
 	// this function adds a question to a lesson
-	validateDBID(lessonId);
-	validateDBID(studentId);
-	validateTextInput(question);
+	try {
+		validateDBID(lessonId);
+		validateDBID(studentId);
+		validateTextInput(question);
+	} catch (e) {
+		throw e;
+	}
 	
 	const questionCollection = await questions();
 	const lessonCollection = await lessons();
@@ -137,7 +153,7 @@ const addQuestion = async (lessonId, studentId, question) => {
 	
 	let newQuestion = {
 		question: question,
-		replies: []
+		reply: ''
 	};
 	
 	// add question to questions collection
@@ -173,14 +189,18 @@ const addQuestion = async (lessonId, studentId, question) => {
 
 const addReply = async (questionId, reply) => {
 	// this function adds a reply to a question on a lesson
-	validateDBID(questionId);
-	validateTextInput(reply);
+	try {
+		validateDBID(questionId);
+		validateTextInput(reply);
+	} catch (e) {
+		throw e;
+	}
 	
 	const questionCollection = await questions();
 	const convertedQuestion = new ObjectId(questionid);
 	
 	let question = await questionCollection.findOne({_id: convertedQuestion});
-	question.replies.push(reply);
+	question.reply(reply);
 	
 	const updateQuestionInfo = await questionCollection.updateOne(
 		{_id: convertedQuestion},
@@ -219,7 +239,11 @@ const getSomeLessons = async (num) => {
 }
 
 const getAuthorId = async (lessonId) => {
-	validateDBID(lessonId);
+	try {
+		validateDBID(lessonId);
+	} catch (e) {
+		throw e;
+	}
 	
 	const lessonCollection = await lessons();
 	const id = new ObjectId(lessonId);
