@@ -1,12 +1,13 @@
 <main>
 <br>
-<form action='/lesson/{{endpoint}}' method='POST'>
+<form action='/lesson/{{endpoint}}' method='POST' onsubmit="addTags()">
 	<label for="lessonTitle">Title</label>
 	<br>
 	<input type="text" class="lessonTitle" name="lessonTitle" value="{{lessonName}}"/>
 	<br>
+	<input type="text" name="author" value="{{lessonAuthor}}" hidden/>
 	<label for="lessonTags">Tags</label>
-	<input type="text" id="tagInput" name="lessonTags"/>
+	<input type="text" id="tagInput" name="lessonTagInput"/>
 	<!-- format this in the routes -->
 	<ul id="tags">
 		{{#each lessonTags}}
@@ -228,6 +229,17 @@
 
 <script>
 	// this script tag is for form interaction
+	
+	function addTags () {
+		let tags = [];
+		
+		$('#tags li').map(function (j, element) {
+			tags.push($(element).text());
+			return $(element).text();
+		}).get();
+		
+		$('#tagInput').val(tags.join(','));
+	}
 	
 	$(document).keypress((event) => {
     		if (event.which == '13') {

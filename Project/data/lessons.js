@@ -53,18 +53,7 @@ const createLesson = async (name, author, body, tags) => {
 		authorId: author, // this is a simple string, not object id
 		body: body,
 		tags: tags,
-		questions: [] // i think this should be an object array of the question key-value pair, and the answers key-value pair where the value of answers is its own array of the replies on the corresponding question
-		/*
-			ADDITIONAL COMMENT FOR CLARIFICATION
-			{[
-				{question: questionId,
-				replies: [replyId1, replyId2, replyId3, etc]
-				},
-				{question: questionId2,
-				replies: [replyId4, replyId5, replyId6, etc]
-				}
-			]}
-		*/
+		questions: [] // i think this should be an array
 	};
 	
 	const insertInfo = await lessonCollection.insertOne(newLesson);
@@ -85,6 +74,51 @@ const createLesson = async (name, author, body, tags) => {
 	if (updateAuthorInfo.modifiedCount === 0) throw `Could not add lesson to author`;
 	
 	return lessonId;
+}
+
+const updateLesson = async (id, name, body, tags, replies) => {
+	try {
+		validateTextInput(name);
+		validateDBID(id);
+		validateTextInput(body);
+		validateTags(tags);
+		replies.forEach(validateTextInput);
+	} catch (e) {
+		throw e;
+	}
+	
+	const lessonCollection = await lessons();
+	const lessonId = new ObjectId(id);
+	let lesson = await lessonCollection.findOne({_id: lessonId});
+	lesson.name = name;
+	lesson.body = body;
+	lesson.tags = tags;
+	
+	const updateInfo = await lessonCollection.updateOne(
+		{_id: lessonId},
+		{$set: lesson}
+	);
+	if (updateInfo.modifiedCount === 0) throw `Could not update lesson`;
+	
+	// add replies to questions
+	if (replies.length != lesson.questions.length) console.log('ruh roh');
+	
+	const questionCollection = await questions();
+	
+	for (let i=0; i<lesson.questions; i++) {
+		let questionId = new ObjectId(lesson.questions[i]);
+		let question = await questionCollection.findOne({_id: questionId});
+		question.reply = replies[i];
+		
+		let updateQuestion = await questionCollection.updateOne(
+			{_id: questionId},
+			{$set: question}
+		);
+		if (updateQuestion.modifiedCount === 0) console.log("couldn't update");
+	}
+	
+	console.log('test');
+	return true;
 }
 
 const getLesson = async (id) => {
@@ -130,7 +164,7 @@ const getMyLessons = async (id) => {
 		
 		if (lesson === null) throw `Could not find lesson ${lessonId}`;
 		
-		lessonList.push(lesson);
+		lessonList.push({id: lesson._id.toString(), name: lesson.name});
 	}
 	
 	if (lessonList.length === 0) return [];
@@ -231,7 +265,6 @@ const getSomeLessons = async (num) => {
 	let limit = Math.min(num, lessonList.length);
 	
 	for (let i=0; i<limit; i++) {
-		console.log(lessonList[i]);
 		formattedLessons.push({id: lessonList[i]._id.toString(), name: lessonList[i].name});
 	}
 	
@@ -256,6 +289,7 @@ const getAuthorId = async (lessonId) => {
 
 module.exports = {
 	createLesson,
+	updateLesson,
 	getLesson,
 	getMyLessons,
 	addQuestion,
