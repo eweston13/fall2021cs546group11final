@@ -91,15 +91,22 @@ const addViewedLesson = async (studentId, lessonId) => {
 	const convertedStudent = new ObjectId(studentId);
 	
 	const student = await studentCollection.findOne({_id: convertedStudent});
+	
+	let alreadyAdded = false;
+	for (let i=0; i<student.lessonsViewed.length; i++) {
+		if (student.lessonsViewed[i] == lessonId) alreadyAdded = true;
+	}
 	student.lessonsViewed.unshift(lessonId);
 	if (student.lessonsViewed.length == 11) student.lessonsViewed.pop();
 	
-	const updateStudentInfo = await studentCollection.updateOne(
-		{_id: convertedStudent},
-		{$set: student}
-	);
+	if (!alreadyAdded) {
+		const updateStudentInfo = await studentCollection.updateOne(
+			{_id: convertedStudent},
+			{$set: student}
+		);
 	
-	if (updateStudentInfo.modifiedCount === 0) throw `Could not add lesson to student's recently viewed`;
+		if (updateStudentInfo.modifiedCount === 0) throw `Could not add lesson to student's recently viewed`;
+	}
 	
 	return {lessonAdded: true};
 	

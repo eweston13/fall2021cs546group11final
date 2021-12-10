@@ -5,16 +5,18 @@
 <!-- for students this is recently viewed, for instructors it's owned lessons -->
 <h2>{{heading}}</h2>
 
+{{{newLesson}}} <!-- for instructors -->
+
 <ul>
 	{{#each firstLessonList}}
-		<li><a href="/lesson/view/{{this.id}}">{{this.name}}</a></li>
+		<li><a href="/lesson/edit/{{this.id}}">{{this.name}}</a></li>
 	{{/each}}
 </ul>
 </div>
 
 <!-- this list appears to students only -->
 <div>
-<h2 hidden>All Lessons</h2>
+<h2>All Lessons</h2>
 
 <form id="search">
 	<label>Search <input type="text" name="searchTerm"/></label>
@@ -35,7 +37,7 @@
 	
 	<ul>
 		{{#each quizList}}
-			<li><a href="/quiz/view/{{this.id}}">{{this.name}}</a></li>
+			<li><a href="/quiz/edit/{{this.id}}">{{this.name}}</a></li>
 		{{/each}}
 	</ul>
 </div>
