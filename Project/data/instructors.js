@@ -44,7 +44,8 @@ async function getInstructorById(id) {
 
 async function deleteInstructor(id) {
     const instructorCollection = await instructors();
-    const deletionInfo = await instructorCollection.removeOne({ _id: id });
+    var convertedId = new ObjectId(id)
+    const deletionInfo = await instructorCollection.remove({ _id: convertedId });
     if (deletionInfo.deletedCount === 0) {
         throw `Could not delete user with the id of "${id}"`;
     }
@@ -70,15 +71,17 @@ async function updateInstructor(id, firstName, lastName, email, username, passwo
         lastName: lastName,
         email: email,
         username: username,
-        password: password,
+        password: await bcrypt.hash(password, saltRounds),
     };
-    const updateInfo = await instructorCollection.updateOne({ _id: id }, { $set: userUpdateInfo });
+
+    var convertedId = new ObjectId(id)
+    const updateInfo = await instructorCollection.updateOne({ _id: convertedId}, { $set: instructorUpdateInfo });
     if (!updateInfo.matchedCount && !updateInfo.modifiedCount) {
         throw 'Update failed';
     }
 
-    const newId = updateInfo.insertedId.toString();
-    return await this.getInstructorById(newId);
+    // const newId = updateInfo.insertedId.toString();
+    return await getInstructorById(convertedId);
 }
 
 async function checkInstructor(username, pass) {

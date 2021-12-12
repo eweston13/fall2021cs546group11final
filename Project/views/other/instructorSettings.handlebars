@@ -1,0 +1,41 @@
+<div>
+    <h1>Instructor Settings</h1>
+
+    <form id='update-form' method='post' action='/settings/instructorUpdate'>
+
+        <div>
+            <label for='instructorFirstName'>First Name</label>
+            <input type='text' id='instructorFirstName' name='instructorFirstName' />
+        </div>
+
+        <div>
+            <label for='instructorLastName'>Last Name</label>
+            <input type='text' id='instructorLastName' name='instructorLastName' />
+        </div>
+
+        <div>
+            <label for='instructorEmail'>Email</label>
+            <input type='text' id='instructorEmail' name='instructorEmail' />
+        </div>
+
+        <div>
+            <label for='instructorUsername'>Username</label>
+            <input type='text' id='instructorUsername' name='instructorUsername' />
+        </div>
+
+        <div>
+            <label for='instructorPassword'>Password</label>
+            <input type='password' id='instructorPassword' name='instructorPassword' />
+        </div>
+
+        <a href='/'>Click here to go back to home page</a>
+        <button type='submit' id='update-login-button'>Submit</button>
+    </form>
+
+    <form id='delete-form' method='post' action='/settings/instructorDelete'>
+        <button type='submit' id='delete-account-button'>Delete Account</button>
+    </form>
+
+    {{InstructorError}}
+
+</div>
