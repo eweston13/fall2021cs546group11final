@@ -44,7 +44,7 @@ const constructorMethod = (app) => {
     app.use('/lesson', lessonPage);
     app.use('/home', homePage);
     app.use('/studenthome', studenthomePage);
-    app.use('/quiz', quizPage);
+//    app.use('/quiz', quizPage);
     app.use('/quizEditPost', quizEditPostPage);
 	app.use('/signout', signOut)
   
