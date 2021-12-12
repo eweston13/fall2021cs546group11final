@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/',  async (req, res) =>{
 //    console.log("in quiz")
     let quizzes = await quizData.getAllQuizzes()
-    console.log(quizzes)
+//    console.log(quizzes)
     let nameList = []
 
     for(obj of quizzes){
@@ -52,9 +52,11 @@ router.get('/:id', async (req, res) => {
 
 router.post('/:id', async(req, res) => {
 
+    let quiz = await quizData.getQuizById(req.params.id)
+    let quizQuestions = quiz.quizData
 
     // console.log("here in quiz post")
-    // console.log("The req body: ", req.body)
+    console.log("The req body: ", req.body)
     // console.log("userId:", req.session.userId)
 
     // var reqSize = Object.keys(req.body).length
@@ -67,11 +69,41 @@ router.post('/:id', async(req, res) => {
     // console.log("the format body:", formatBody)
 
     let questionAnswers = Object.values(req.body)
+    
+    var gradequiz
 
-    let gradequiz = await quizData.gradeQuiz(req.params.id, req.session.userId, questionAnswers)
+    if(req.session.user == "instructor"){
+        res.status(400).render("other/quiz-view", {layout: "main", quizId: String(quiz._id), quizTitle: quiz.quizName, questions: quizQuestions})
+        return
+    }
+
+    try{
+        gradequiz = await quizData.gradeQuiz(req.params.id, req.session.userId, questionAnswers)
+        res.redirect('/login')
+    }catch (e){
+        res.status(400).render("other/quiz-view", {layout: "studentLogin", quizId: String(quiz._id), quizTitle: quiz.quizName, questions: quizQuestions, error: e})
+    }
+   
     console.log(gradequiz)
+
 })
 
+router.post('/:id/delete', async(req, res) =>{
+
+    let quizzes = await quizData.getAllQuizzes()
+
+    if(req.session.user == "student"){
+        res.render("other/quizzes", {layout: "studentLogin",  quizList: quizzes, error: "Cannot delete quiz as a student, nice try : )"})
+        return
+    }
+
+    try{
+        await quizData.removeQuiz(req.params.id)
+        res.redirect('/quiz')
+    }catch (e){
+        res.render("other/quizzes", {layout: "main",  quizList: quizzes, error: e })
+    }
+})
 
 
 

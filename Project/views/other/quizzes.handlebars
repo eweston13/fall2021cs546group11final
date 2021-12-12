@@ -1,4 +1,13 @@
 {{#each quizList}}
 
-    <p><a href = '/quiz/{{this._id}}'>  {{this.quizName}}  </a></p>
+    <p><a href = '/quiz/{{this._id}}'>  {{this.quizName}} </a>  
+    
+    <form method='post' action='/quiz/{{this._id}}/delete'>
+        <button type='submit'>Delete Quiz</button>
+    </form>
+    
+    </p>
 {{/each}}
+
+
+    {{error}}
