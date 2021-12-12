@@ -422,5 +422,5 @@ module.exports = {
     getAllQuizGrades,
     getAllStudents,
 	editGrades,
-	getGrades
+	// getGrades
 }
