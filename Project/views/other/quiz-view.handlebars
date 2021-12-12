@@ -2,7 +2,7 @@
 
 <h1>{{quizTitle}}</h2>
 
-<form id="quiz">
+<form id="quiz" action="/quiz/{{quizId}}" method="post">
 
 {{#each questions}}
 	<h3><label for="question{{@index}}">{{this.question}}</label></h3>

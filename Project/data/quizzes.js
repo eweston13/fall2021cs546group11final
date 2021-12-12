@@ -188,7 +188,7 @@ const gradeQuiz = async (quizId, studentId, quizData) => {
 	
 	// add score to student
 	const studentCollection = await students();
-	const convertedStudentId = new ObejctId(studentId);
+	const convertedStudentId = new ObjectId(studentId);
 	const student = await studentCollection.findOne({_id: convertedStudentId});
 	student.quizzesCompleted.push({quizId: quizId, numCorrect: numCorrect, numQuestions: numQuestions});
 	
