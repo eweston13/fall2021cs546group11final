@@ -12,8 +12,10 @@ router.get('/', async (req, res) => {
     try {
     	const lessonList1 = await lessonData.getMyLessons(req.session.userId);
     	const lessonList2 = await lessonData.getSomeLessons(20);
-    	const quizList = await quizData.getMyQuizzes(req.session.userId); // need to use instructor ID for this one too
-    	res.render('other/home', {heading: 'My Lessons', firstLessonList: lessonList1, secondLessonList: lessonList2, quizList: quizList, newLesson: '<a href="/lesson/new">Add New Lesson</a>'});
+    	// const quizList = await quizData.getMyQuizzes(req.session.userId); // need to use instructor ID for this one too
+    	// res.render('other/home', {heading: 'My Lessons', firstLessonList: lessonList1, secondLessonList: lessonList2, quizList: quizList, newLesson: '<a href="/lesson/new">Add New Lesson</a>'});
+		res.render('other/home', {heading: 'My Lessons', firstLessonList: lessonList1, secondLessonList: lessonList2, newLesson: '<a href="/lesson/new">Add New Lesson</a>'});
+
     } catch (e) {
     	console.log(e);
     }
