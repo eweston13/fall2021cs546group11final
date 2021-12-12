@@ -42,7 +42,12 @@ router.get('/view/:id', async (req, res) => {
 		if (i==0) tags = lesson.tags[i];
 		else tags = tags + ', ' + lesson.tags[i];
 	}
-	const questions = lesson.questions; // haven't added this to the handlebars yet lol
+	const questionList = lesson.questions;
+	let questions = [];
+	for (let i=0; i<questionList.length; i++) {
+		let question = await lessonsData.getQuestion(questionList[i]);
+		questions.push(question);
+	}
 	
 	const relatedLessons = await lessonsData.getMyLessons(authorId);
 	
@@ -60,6 +65,20 @@ router.get('/view/:id', async (req, res) => {
 	res.render('other/lesson-view', {extraStyles: '', lessons: relatedLessons, lessonName: title, authorName: authorName, lessonText: body, lessonTags: tags, questions: questions});
 });
 
+//------------------------------ ADD QUESTION TO LESSON ------------------------------//
+router.post('/view/:id', async (req, res) => {
+	const lessonId = req.params.id;
+	const studentId = req.session.userId;
+	const question = req.body.question;
+	
+	try {
+		let questionAdded = await lessonsData.addQuestion(lessonId, studentId, question);
+		res.redirect(`/lesson/view/${lessonId}`);
+	} catch (e) {
+		res.status(500).json({error: e}).send();
+	}
+});
+
 //------------------------------ EDIT LESSON ID ------------------------------//
 router.get('/edit/:id', async (req, res) => {
 	// edit lesson view of lesson :id
@@ -70,9 +89,12 @@ router.get('/edit/:id', async (req, res) => {
 		const title = lesson.name;
 		const body = lesson.body;
 		const tags = lesson.tags;
-		const questions = lesson.questions;
-		
-		// get questions from question collection
+		const questionList = lesson.questions;
+		let questions = [];
+		for (let i=0; i<questionList.length; i++) {
+			let question = await lessonsData.getQuestion(questionList[i]);
+			questions.push(question);
+		}
 	
 		res.render('other/edit-lesson-view', {extraStyles: '<link rel="stylesheet" href="../../public/css/lesson-edit-styles.css">', endpoint: `edit/${lessonId}`, lessonName: title, lessonAuthor: req.session.userId, lessonTags: tags, lessonText: body, questions: questions});
 	} catch (e) {

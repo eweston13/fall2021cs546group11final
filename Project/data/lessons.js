@@ -221,6 +221,22 @@ const addQuestion = async (lessonId, studentId, question) => {
 	
 }
 
+const getQuestion = async (id) => {
+	try {
+		validateDBID(id);
+	} catch (e) {
+		throw e;
+	}
+	
+	const questionId = new ObjectId(id);
+	const questionCollection = await questions();
+	
+	const question = await questionCollection.findOne({_id: questionId});
+	if (question === null) throw `Could not find question`;
+	
+	return question;
+}
+
 const addReply = async (questionId, reply) => {
 	// this function adds a reply to a question on a lesson
 	try {
@@ -293,6 +309,7 @@ module.exports = {
 	getLesson,
 	getMyLessons,
 	addQuestion,
+	getQuestion,
 	addReply,
 	getAllLessons,
 	getSomeLessons,
