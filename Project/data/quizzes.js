@@ -54,9 +54,9 @@ function validateQuizAttempt (data, questionCount) {
 //--------------------- CREATE NEW QUIZ (INSTRUCTORS) ---------------------//
 const createQuiz = async (quizName, authorId, quizInfo) => {
 	// validate inputs
-	// validateName(quizName);
-	// validateDBID(authorId);
-	// validateQuizInfo(quizInfo);
+	validateName(quizName);
+	validateDBID(authorId);
+	validateQuizInfo(quizInfo);
 	
 	const quizCollection = await quizzes();
 	

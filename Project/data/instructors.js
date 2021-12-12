@@ -168,6 +168,15 @@ async function test() {
     console.log('Instructor check:', instructor1verif);
 }
 
+async function getInstructorIdWithUsername(uname){
+    const instructorCollection = await instructors();
+    const instructor = await instructorCollection.findOne({username: uname});
+
+    if (instructor === null) return 'Couldnt find instructor with this username';
+
+    return instructor._id
+}
+
 async function getInstructorName(id) {
     // this is to get the username of instructors to display on lesson views
     const instructorCollection = await instructors();
@@ -188,4 +197,5 @@ module.exports = {
     updateInstructor,
     addOwnedLesson,
     getOwnedLessons,
+    getInstructorIdWithUsername
 };
