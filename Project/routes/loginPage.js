@@ -49,9 +49,6 @@ router.post('/studentlogin', async (req, res) => {
   
   var theUser;  
 
-  //DO ERROR CHECKING
-
-
   try{
   theUser = await studentData.checkStudent(username, password)
   }catch (e){
@@ -75,11 +72,13 @@ router.post('/studentlogin', async (req, res) => {
 router.post('/instructorlogin', async (req, res) => {
 
   const {instructorUsername, instructorPassword} = req.body
+  // console.log("username: ",instructorUsername)
+  // console.log("password:", instructorPassword)
 
   //DO ERROR CHECKING
   if(!instructorUsername || !instructorPassword){
     // res.render('other/login')
-    res.status(400).render("other/login", {layout: 'mainLogin', InstructorError: "Missing username or password"})
+    res.status(400).render("other/login", {layout: 'mainLogin', InstructorError: "Missing username or password 2"})
     return
   }
 
@@ -122,7 +121,7 @@ router.post('/instructorlogin', async (req, res) => {
   if(theUser.authenticated == true){
     //console.log("here")
     req.session.username = instructorUsername ;
-    req.session.userId = await instructorData.getInstructorId(instructorUsername);
+    req.session.userId = await instructorData.getInstructorIdWithUsername(instructorUsername);
     req.session.user = "instructor"
     res.redirect('/home')
   }else{

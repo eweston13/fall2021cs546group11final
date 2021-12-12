@@ -2,14 +2,14 @@
 
 <h1>{{quizTitle}}</h2>
 
-<form id="quiz">
+<form id="quiz" action="/quiz/{{quizId}}" method="post">
 
 {{#each questions}}
-	<label for="question{{@index}}">{{this.question}}</label>
-		<label><input type="radio" name="question{{@index}}" value="A"> {{this.option1}}</label>
-		<label><input type="radio" name="question{{@index}}" value="B"> {{this.option2}}</label>
-		<label><input type="radio" name="question{{@index}}" value="C"> {{this.option3}}</label>
-		<label><input type="radio" name="question{{@index}}" value="D"> {{this.option4}}</label>
+	<h3><label for="question{{@index}}">{{this.question}}</label></h3>
+		<p><label><input type="radio" name="question{{@index}}" value="A"> {{this.options.[0]}}</label></p>
+		<p><label><input type="radio" name="question{{@index}}" value="B"> {{this.options.[1]}}</label></p>
+		<p><label><input type="radio" name="question{{@index}}" value="C"> {{this.options.[2]}}</label></p>
+		<p><label><input type="radio" name="question{{@index}}" value="D"> {{this.options.[3]}}</label></p>
 	<br>
 {{/each}}
 

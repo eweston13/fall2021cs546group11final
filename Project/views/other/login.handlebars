@@ -1,29 +1,51 @@
- <div>
-        <h1>Student Login</h1>
+<div class='flex-container'>
 
-        <form id = "login-form" method = "post" action = "/login/studentlogin">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
-            <a href="signup">Need to register? Click here to sign-up</a>
-            <button type="submit" id="login-Button">Submit</button>
-        </form>
-
+    <form class='flex-child' id='login-form' method='post' action='/login/studentlogin'>
+        <h1 id='title'>Student Login</h1>
         {{StudentError}}
+        <br />
+        <br />
+        <label for='username' id='subtitle'>Username</label>
+        <br />
+        <input type='text' id='username' name='username' />
+        <br />
+        <br />
+        <br />
+        <label for='password' id='subtitle'>Password</label>
+        <br />
+        <input type='password' id='password' name='password' />
+        <br />
+        <br />
+        <br />
+        <a href='signup' id='subtitle'>Need to register? Click here!</a>
+        <br />
+        <br />
+        <br />
+        <button type='submit' id='login-Button'>Submit</button>
+    </form>
 
-
-        <h1>Instructor Login</h1>
-
-        <form id = "login-form" method = "post" action = "/login/instructorlogin">
-            <label for="instructorUsername">Username</label>
-            <input type="text" id="instructorUsername" name="instructorUsername">
-            <label for="instructorPassword">Password</label>
-            <input type="password" id="instructorPassword" name="instructorPassword">
-            <a href="signup">Need to register? Click here to sign-up</a>
-            <button type="submit" id="login-Button">Submit</button>
-        </form>
-
+    <form class='flex-child' id='login-form' method='post' action='/login/instructorlogin'>
+        <h1 id='title'>Instructor Login</h1>
         {{InstructorError}}
+        <br />
+        <br />
+        <label for='instructorUsername' id='subtitle'>Username</label>
+        <br />
+        <input type='text' id='instructorUsername' name='instructorUsername' />
+        <br />
+        <br />
+        <br />
+        <label for='instructorPassword' id='subtitle'>Password</label>
+        <br />
+        <input type='password' id='instructorPassword' name='instructorPassword' />
+        <br />
+        <br />
+        <br />
+        <a href='signup' id='subtitle'>Need to register? Click here!</a>
+        <br />
+        <br />
+        <br />
+        <button type='submit' id='login-Button'>Submit</button>
+    </form>
 
-    </div>
+</div>

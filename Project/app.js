@@ -87,8 +87,10 @@ app.use('/login', (req, res, next) =>{
 app.use('/quiz', (req, res, next) =>{
   // console.log(Object.keys(req))
   if(req.session.username){
+    // console.log("quizmiddleware1")
     next()
   }else{
+    // console.log("quizmiddleware2")
     res.redirect('/login')
   }
 });
