@@ -108,6 +108,12 @@ const editQuiz = async (quizId, quizInfo) => {
 	
 }
 
+const getAllQuizzes = async() => {
+    const quizCollection = await quizzes();
+	const quizList = await quizCollection.find({}).toArray();
+    return quizList
+}
+
 const getMyQuizzes = async (id) => {
 	validateDBID(id);
 	
@@ -203,7 +209,8 @@ module.exports = {
 	getMyQuizzes,
 	getSomeQuizzes,
 	getQuizById,
-	gradeQuiz
+	gradeQuiz,
+    getAllQuizzes
 
 /*
 //---------------------CREATE A NEW QUIZ (By ADMIN/INSTRUCTORS)--------------------//
