@@ -401,32 +401,26 @@ async function editGrades(studentId,quizId,grades)
    return requiredAnswer;
 }
 
-const getGrades = async (id) => {
-	// get grades for student with ID id
-	checkId(id);
+// const getGrades = async (id) => {
+// 	// get grades for student with ID id
+// 	checkId(id);
 	
-    const studentCollection = await students();
-    const studentId = new ObjectId(id);
+//     const studentCollection = await students();
+//     const studentId = new ObjectId(id);
     	
-    const student = await studentCollection.findOne({_id: studentId});
+//     const student = await studentCollection.findOne({_id: studentId});
     	
-    if (student === null) throw `Couldn't find student ${id}`;
+//     if (student === null) throw `Couldn't find student ${id}`;
     	
-    return student.quizzesCompleted;
+//     return student.quizzesCompleted;
     	
-}
-
-const editGrades = async (studentId, quizId, grade) => {
-
-}
-
-const removeGrades = async (studentId) => {
-
-}
+// }
 
 module.exports = {
 	createGrades,
-	getGrades,
+    removeGrades,
+    getAllQuizGrades,
+    getAllStudents,
 	editGrades,
-	removeGrades
+	getGrades
 }
