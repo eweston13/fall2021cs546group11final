@@ -18,8 +18,10 @@
 	
 	{{#each questions}}
 		<p>{{this.question}}</p>
-		<label>Answer&#10;<input type="text" name="question{{@index}}" value="{{this.reply}}"/></label>
+		<label>Answer&#10;<input type="text" id="question{{@index}}" name="question{{@index}}" value="{{this.reply}}"/></label>
 	{{/each}}
+	
+	<input type="text" id="replies" name="replies" hidden />
 	
 	<br>
 	<input type="submit" value="Save Changes"/>
@@ -239,6 +241,16 @@
 		}).get();
 		
 		$('#tagInput').val(tags.join(','));
+		
+		// also process questions
+		let replies = [];
+		for (let i=0; i<{{numQuestions}}; i++) {
+			let reply = $(`#question${i}`).val();
+			console.log(reply);
+			replies.push(reply);
+		}
+		
+		$('#replies').val(replies.join('\\'));
 	}
 	
 	$(document).keypress((event) => {
