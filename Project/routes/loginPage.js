@@ -49,9 +49,6 @@ router.post('/studentlogin', async (req, res) => {
   
   var theUser;  
 
-  //DO ERROR CHECKING
-
-
   try{
   theUser = await studentData.checkStudent(username, password)
   }catch (e){
@@ -75,8 +72,8 @@ router.post('/studentlogin', async (req, res) => {
 router.post('/instructorlogin', async (req, res) => {
 
   const {instructorUsername, instructorPassword} = req.body
-  console.log("username: ",instructorUsername)
-  console.log("password:", instructorPassword)
+  // console.log("username: ",instructorUsername)
+  // console.log("password:", instructorPassword)
 
   //DO ERROR CHECKING
   if(!instructorUsername || !instructorPassword){
