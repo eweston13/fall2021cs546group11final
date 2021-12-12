@@ -120,7 +120,7 @@
             })
             console.log('no error');
 
-           window.location = url;
+           window.location = '/home';
 
         }
 
