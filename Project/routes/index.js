@@ -9,7 +9,7 @@ const signOut = require('./signout');
 const settingsPage = require('./settings');
 
 // const redirectHome = (req, res, next) => {
-  
+
 //  // console.log(req.originalUrl)
 
 //   if(req.session.username){
@@ -26,7 +26,7 @@ const settingsPage = require('./settings');
 // }
 
 // const redirectLogin = (req, res, next) => {
-   
+
 //    if(req.session.username){
 //      if(req.originalUrl == '/home'){
 //        return next()
@@ -38,21 +38,21 @@ const settingsPage = require('./settings');
 //    }
 //    next()
 //  }
- 
+
 const constructorMethod = (app) => {
     app.use('/login', loginPage);
     app.use('/signup', signupPage);
     app.use('/lesson', lessonPage);
     app.use('/home', homePage);
     app.use('/studenthome', studenthomePage);
-//    app.use('/quiz', quizPage);
+    //    app.use('/quiz', quizPage);
     app.use('/quizEditPost', quizEditPostPage);
-	app.use('/signout', signOut)
-    app.use('/settings', settingsPage)
-  
+    app.use('/signout', signOut);
+    app.use('/settings', settingsPage);
+
     app.use('*', (req, res) => {
-      res.redirect('/login')
-    })
-  };
-  
-  module.exports = constructorMethod;
+        res.redirect('/login');
+    });
+};
+
+module.exports = constructorMethod;
