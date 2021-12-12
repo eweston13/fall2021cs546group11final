@@ -149,8 +149,13 @@ router.get('/:id', async (req, res) => {
     }
     try {
         const getAllQuizData = await gradesData.getAllQuizGrades(studentId);
-        res.json(getAllQuizData);
-        //res.render('other/studentGrade',getAllQuizData);
+
+        const quizdata = {
+            title: "All the quiz Data",
+            quiz: getAllQuizData
+        }
+        //res.json(getAllQuizData);
+        res.render('other/studentGrade',quizdata);
     } catch (e) {
         res.status(400).json({ error: e });
     }
