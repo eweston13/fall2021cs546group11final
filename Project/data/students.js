@@ -26,7 +26,7 @@ async function addStudent(firstName, lastName, email, username, password) {
         password: await bcrypt.hash(password, saltRounds),
         lessonsViewed: [],
         quizzesCompleted: [],
-        questionsAsked: []
+        questionsAsked: [],
     };
 
     //REMEMBER TO MAKE USERNAMES LOWERCASE
@@ -45,8 +45,8 @@ async function getStudentById(id) {
 
 async function deleteStudent(id) {
     const studentCollection = await students();
-    var convertedId = new ObjectId(id)
-    const deletionInfo = await studentCollection.removeOne({ _id: convertedId });
+    var convertedId = new ObjectId(id);
+    const deletionInfo = await studentCollection.remove({ _id: convertedId });
     if (deletionInfo.deletedCount === 0) {
         throw `Could not delete user with the id of "${id}"`;
     }
@@ -75,8 +75,11 @@ async function updateStudent(id, firstName, lastName, email, username, password)
         password: await bcrypt.hash(password, saltRounds),
     };
 
-    var convertedId = new ObjectId(id)
-    const updateInfo = await studentCollection.updateOne({ _id: convertedId }, { $set: studentUpdateInfo });
+    var convertedId = new ObjectId(id);
+    const updateInfo = await studentCollection.updateOne(
+        { _id: convertedId },
+        { $set: studentUpdateInfo },
+    );
     if (!updateInfo.matchedCount && !updateInfo.modifiedCount) {
         throw 'Update failed';
     }
@@ -95,7 +98,7 @@ async function checkStudent(username, pass) {
     const studentCollection = await students();
     username = username.toLowerCase();
     let obj = await studentCollection.findOne({ username: username });
-    
+
     var passCheck;
     try {
         passCheck = await bcrypt.compare(pass, obj.password);
