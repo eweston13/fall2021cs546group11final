@@ -14,25 +14,6 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/studentDelete', async (req, res) => {
-    var theUser;
-
-    //DO ERROR CHECKING
-
-    try {
-        theUser = await studentData.checkStudent(username, password);
-    } catch (e) {
-        console.log(e);
-        res.status(400).render('other/studentSettings', { layout: 'studentLogin', StudentError: e });
-        return;
-    }
-
-    if (theUser.authenticated == true) {
-        req.session.username = username;
-        req.session.userId = await studentData.getStudentId(username);
-        req.session.user = 'student';
-    } else {
-        res.json('error');
-    }
 
     var deletedUser;
 
@@ -51,25 +32,6 @@ router.post('/studentDelete', async (req, res) => {
 });
 
 router.post('/instructorDelete', async (req, res) => {
-    var theUser;
-
-    //DO ERROR CHECKING
-
-    // try {
-    //     theUser = await instructorData.checkInstructor(username, password);
-    // } catch (e) {
-    //     console.log(e);
-    //     res.status(400).render('other/instructorSettings', { layout: 'mainLogin', StudentError: e });
-    //     return;
-    // }
-
-    // if (theUser.authenticated == true) {
-    //     req.session.username = username;
-    //     req.session.userId = await instructorData.getInstructorId(username);
-    //     req.session.user = 'instructor';
-    // } else {
-    //     res.json('error');
-    // }
 
     var deletedUser;
 
@@ -89,43 +51,20 @@ router.post('/instructorDelete', async (req, res) => {
 });
 
 router.post('/studentUpdate', async (req, res) => {
-    var theUser;
-
-    //DO ERROR CHECKING
-
-    try {
-        theUser = await studentData.checkStudent(username, password);
-    } catch (e) {
-        console.log(e);
-        res.status(400).render('other/studentSettings', { layout: 'mainLogin', StudentError: e });
-        return;
-    }
-
-    if (theUser.authenticated == true) {
-        req.session.username = username;
-        req.session.userId = await studentData.getStudentId(username);
-        req.session.user = 'student';
-    } else {
-        res.json('error');
-    }
-
-    const { firstName, lastName, email, username, password } = req.body;
-
-    //DO ERROR CHECKING
-    // if (!username || !password || !firstName || !lastName || !email) {
-    //     res.status(400).render('other/signup', {
-    //         layout: 'mainLogin',
-    //         StudentError: 'Missing form element',
-    //     });
-    //     return;
-    // }
+   const {
+        studentFirstName,
+        studentLastName,
+        studentEmail,
+        studentUsername,
+        studentPassword,
+    } = req.body;
 
     if (
-        username == ' '.repeat(username.length) ||
-        password == ' '.repeat(password.length) ||
-        firstName == ' '.repeat(firstName.length) ||
-        lastName == ' '.repeat(lastName.length) ||
-        email == ' '.repeat(email.length)
+        studentUsername == ' '.repeat(studentUsername.length) ||
+        studentPassword == ' '.repeat(studentPassword.length) ||
+        studentFirstName == ' '.repeat(studentFirstName.length) ||
+        studentLastName == ' '.repeat(studentLastName.length) ||
+        studentEmail == ' '.repeat(studentEmail.length)
     ) {
         res.status(400).render('other/studentSettings', {
             layout: 'mainLogin',
@@ -134,7 +73,7 @@ router.post('/studentUpdate', async (req, res) => {
         return;
     }
 
-    if (!username || !password) {
+    if (!studentUsername || !studentPassword) {
         // res.render('other/login')
         res.status(400).render('other/studentSettings', {
             layout: 'mainLogin',
@@ -143,7 +82,7 @@ router.post('/studentUpdate', async (req, res) => {
         return;
     }
 
-    if (username == ' '.repeat(username.length)) {
+    if (studentUsername == ' '.repeat(studentUsername.length)) {
         res.status(400).render('other/studentSettings', {
             layout: 'mainLogin',
             StudentError: 'Username cannot be only spaces',
@@ -151,7 +90,7 @@ router.post('/studentUpdate', async (req, res) => {
         return;
     }
 
-    if (username.length < 4) {
+    if (studentUsername.length < 4) {
         res.status(400).render('other/studentSettings', {
             layout: 'mainLogin',
             StudentError: 'Username must be at least 4 letters long',
@@ -159,7 +98,7 @@ router.post('/studentUpdate', async (req, res) => {
         return;
     }
 
-    if (/^[a-zA-Z0-9]*$/.test(username) == false) {
+    if (/^[a-zA-Z0-9]*$/.test(studentUsername) == false) {
         res.status(400).render('other/studentSettings', {
             layout: 'mainLogin',
             StudentError: 'Username should be alphanumeric',
@@ -167,7 +106,7 @@ router.post('/studentUpdate', async (req, res) => {
         return;
     }
 
-    if (password.length < 6) {
+    if (studentPassword.length < 6) {
         res.status(400).render('other/studentSettings', {
             layout: 'mainLogin',
             StudentError: 'Password must be at least 6 letters long',
@@ -175,7 +114,7 @@ router.post('/studentUpdate', async (req, res) => {
         return;
     }
 
-    if (password.includes(' ')) {
+    if (studentPassword.includes(' ')) {
         res.status(400).render('other/studentSettings', {
             layout: 'mainLogin',
             StudentError: 'Password cannot have a space',
@@ -186,13 +125,13 @@ router.post('/studentUpdate', async (req, res) => {
     var updatedUser;
 
     try {
-        updatedUser = await studentData.updateStudent(
+        updatedUser = await instructorData.updateInstructor(
             req.session.userId,
-            firstName,
-            lastName,
-            email,
-            username,
-            password,
+            instructorFirstName,
+            instructorLastName,
+            instructorEmail,
+            instructorUsername,
+            instructorPassword,
         );
     } catch (e) {
         res.status(400).render('other/studentSettings', { layout: 'mainLogin', StudentError: e });
@@ -200,32 +139,14 @@ router.post('/studentUpdate', async (req, res) => {
     }
 
     if (updatedUser) {
-        res.redirect('/');
+        req.session.destroy()
+        res.redirect('/login');
     } else {
         res.json('error');
     }
 });
 
 router.post('/instructorUpdate', async (req, res) => {
-    var theUser;
-
-    //DO ERROR CHECKING
-
-    // try {
-    //     theUser = await instructorData.checkInstructor(username, password);
-    // } catch (e) {
-    //     console.log(e);
-    //     res.status(400).render('other/settings', { layout: 'mainLogin', InstructorError: e });
-    //     return;
-    // }
-
-    // if (theUser.authenticated == true) {
-    //     req.session.username = username;
-    //     req.session.userId = await instructorData.getInstructorId(username);
-    //     req.session.user = 'instructor';
-    // } else {
-    //     res.json('error');
-    // }
 
     const {
         instructorFirstName,

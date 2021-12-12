@@ -45,7 +45,8 @@ async function getStudentById(id) {
 
 async function deleteStudent(id) {
     const studentCollection = await students();
-    const deletionInfo = await studentCollection.removeOne({ _id: id });
+    var convertedId = new ObjectId(id)
+    const deletionInfo = await studentCollection.removeOne({ _id: convertedId });
     if (deletionInfo.deletedCount === 0) {
         throw `Could not delete user with the id of "${id}"`;
     }
@@ -71,15 +72,16 @@ async function updateStudent(id, firstName, lastName, email, username, password)
         lastName: lastName,
         email: email,
         username: username,
-        password: password,
+        password: await bcrypt.hash(password, saltRounds),
     };
-    const updateInfo = await studentCollection.updateOne({ _id: id }, { $set: userUpdateInfo });
+
+    var convertedId = new ObjectId(id)
+    const updateInfo = await studentCollection.updateOne({ _id: convertedId }, { $set: studentUpdateInfo });
     if (!updateInfo.matchedCount && !updateInfo.modifiedCount) {
         throw 'Update failed';
     }
 
-    const newId = updateInfo.insertedId.toString();
-    return await this.getStudentById(newId);
+    return await getStudentById(convertedId);
 }
 
 async function checkStudent(username, pass) {
@@ -93,26 +95,12 @@ async function checkStudent(username, pass) {
     const studentCollection = await students();
     username = username.toLowerCase();
     let obj = await studentCollection.findOne({ username: username });
-    return { userInserted: true };
-}
-
-async function checkStudent(username, pass) {
-    if (!username || !pass) throw 'Username and password both must be supplied';
-    if (username == ''.repeat(username.length)) throw 'Username cannot be only spaces';
-    if (username.length < 4) throw 'Username must be at least 4 letters long';
-    if (/^[a-zA-Z0-9]*$/.test(username) == false) throw 'Username should be alphanumeric';
-    if (pass < 6) throw 'Password must be at least 6 letters long';
-    if (pass.includes(' ')) throw 'Password cannot contain a space';
-
-    const studentCollection = await students();
-    username = username.toLowerCase();
-    let obj = await studentCollection.findOne({ username: username });
-
+    
     var passCheck;
     try {
         passCheck = await bcrypt.compare(pass, obj.password);
     } catch (e) {
-        console.log(e);
+        throw 'Either the username or password is invalid';
     }
 
     if (passCheck && username == obj.username) {
