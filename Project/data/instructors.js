@@ -36,52 +36,48 @@ async function addInstructor(firstName, lastName, email, username, password) {
 
 async function getInstructorById(id) {
     const instructorCollection = await instructors();
-    const instructor = await instructorCollection.findOne({_id : id})
-    if (!instructor) throw 'Instructor not found'
-    return instructor
+    const instructor = await instructorCollection.findOne({ _id: id });
+    if (!instructor) throw 'Instructor not found';
+    return instructor;
 }
 
-async function deleteInstructor(id){
+async function deleteInstructor(id) {
     const instructorCollection = await instructors();
-    const deletionInfo = await instructorCollection.removeOne({_id: id});
+    const deletionInfo = await instructorCollection.removeOne({ _id: id });
     if (deletionInfo.deletedCount === 0) {
-        throw `Could not delete user with the id of "${id}"`
+        throw `Could not delete user with the id of "${id}"`;
     }
     return true;
 }
 
-async function updateInstructor(id, updatedInstructor){
-    if (!updatedInstructor.username || !updatedInstructor.password) throw 'Username and password both must be supplied';
-    if (updatedInstructor.username == ''.repeat(updatedInstructor.username.length)) throw 'Username cannot be only spaces';
-    if (updatedInstructor.username.length < 4) throw 'Username must be at least 4 letters long';
-    if (/^[a-zA-Z0-9]*$/.test(updatedInstructor.username) == false) throw 'Username should be alphanumeric';
+async function updateInstructor(id, firstName, lastName, email, username, password) {
+    if (!username || !password) throw 'Username and password both must be supplied';
+    if (username == ''.repeat(username.length)) throw 'Username cannot be only spaces';
+    if (username.length < 4) throw 'Username must be at least 4 letters long';
+    if (/^[a-zA-Z0-9]*$/.test(username) == false) throw 'Username should be alphanumeric';
 
     const instructorCollection = await instructors();
 
-    let userExists = await instructorCollection.findOne({ username: updatedInstructor.username });
+    let userExists = await instructorCollection.findOne({ username: username });
     if (userExists) throw 'Username already exists in system';
 
-    if (updatedInstructor.password.length < 6) throw 'Password must be at least 6 letters long';
-    if (updatedInstructor.password.includes(' ')) throw 'Password cannot contain a space';
-
+    if (password.length < 6) throw 'Password must be at least 6 letters long';
+    if (password.includes(' ')) throw 'Password cannot contain a space';
 
     let instructorUpdateInfo = {
-        firstName: updatedInstructor.firstName,
-        lastName: updatedInstructor.lastName,
-        email: updatedInstructor.email,
-        username: updatedInstructor.username,
-        password: updatedInstructor.password
-    }
-    const updateInfo = await instructorCollection.updateOne(
-        { _id: id },
-        { $set: userUpdateInfo }
-    );
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        username: username,
+        password: password,
+    };
+    const updateInfo = await instructorCollection.updateOne({ _id: id }, { $set: userUpdateInfo });
     if (!updateInfo.matchedCount && !updateInfo.modifiedCount) {
         throw 'Update failed';
     }
 
     const newId = updateInfo.insertedId.toString();
-    return await this.getInstructorById(newId)
+    return await this.getInstructorById(newId);
 }
 
 async function checkInstructor(username, pass) {
@@ -110,6 +106,55 @@ async function checkInstructor(username, pass) {
 
     throw 'Either the username or password is invalid';
 }
+
+const addOwnedLesson = async (instructorId, lessonId) => {
+    // validation functions later
+
+    const instructorCollection = await instructors();
+    const convertedInstructor = new ObjectId(instructorId);
+
+    const instructor = await instructorCollection.findOne({ _id: convertedInstructor });
+
+    let alreadyAdded = false;
+    for (let i = 0; i < instructor.lessonsCreated.length; i++) {
+        if (instructor.lessonsCreated[i] == lessonId) alreadyAdded = true;
+    }
+    instructor.lessonsCreated.unshift(lessonId);
+    if (instructor.lessonsCreated.length == 11) instructor.lessonsCreated.pop();
+
+    if (!alreadyAdded) {
+        const updateInstructorInfo = await instructorCollection.updateOne(
+            { _id: convertedInstructor },
+            { $set: instructor },
+        );
+
+        if (updateInstructorInfo.modifiedCount === 0)
+            throw `Could not add lesson to instructor's owned lessons`;
+    }
+
+    return { lessonAdded: true };
+};
+
+const getOwnedLessons = async (instructorId) => {
+    // validation functions later
+
+    const instructorCollection = await instructors();
+    const convertedInstructor = new ObjectId(instructorId);
+
+    const instructor = await instructorCollection.findOne({ _id: convertedInstructor });
+    if (instructor === null) throw `Could not find instructor ${instructorId}`;
+
+    const lessonCollection = await lessons();
+    let lessonList = [];
+
+    for (let i = 0; i < instructor.lessonsCreated.length; i++) {
+        let lessonId = new ObjectId(instructor.lessonsCreated[i]);
+        let lesson = await lessonCollection.findOne({ _id: lessonId });
+        lessonList.push({ id: instructor.lessonsCreated[i], name: lesson.name });
+    }
+
+    return lessonList;
+};
 
 //function test is used just to test individual functions to see if they work, seed file must be run first
 // async function test(){
@@ -140,5 +185,7 @@ module.exports = {
     getInstructorName,
     getInstructorById,
     deleteInstructor,
-    updateInstructor
+    updateInstructor,
+    addOwnedLesson,
+    getOwnedLessons,
 };

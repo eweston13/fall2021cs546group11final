@@ -5,12 +5,12 @@
 <form id="quiz">
 
 {{#each questions}}
-<label for="question{{@index}}">{{this.question}}</label>
-<input type="radio" name="question{{@index}}" value="A">
-<input type="radio" name="question{{@index}}" value="B">
-<input type="radio" name="question{{@index}}" value="C">
-<input type="radio" name="question{{@index}}" value="D">
-<br>
+	<label for="question{{@index}}">{{this.question}}</label>
+		<label><input type="radio" name="question{{@index}}" value="A"> {{this.option1}}</label>
+		<label><input type="radio" name="question{{@index}}" value="B"> {{this.option2}}</label>
+		<label><input type="radio" name="question{{@index}}" value="C"> {{this.option3}}</label>
+		<label><input type="radio" name="question{{@index}}" value="D"> {{this.option4}}</label>
+	<br>
 {{/each}}
 
 <input type="submit">

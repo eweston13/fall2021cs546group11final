@@ -1,5 +1,5 @@
 <p>I can create quiz here</p>
-<form id = "quizInit">
+<form id = "quizInit" action="/quizEditPost/quizCreate" method="post">
     <h1><label for = "quizTitle">Quiz Title</label></h1>
     <input name = 'quizTitle' type = "text" id = "quizTitle">
 
@@ -10,5 +10,7 @@
     <a href="/quizEditPost/quizCreate" id = "mcAdd">Add Multiple Choice Question</a>
 
 
-    <button type = "submit">Post Quiz</button>
+    <input type="submit" value="Post Quiz">
+    <p id = "error"></p> 
+
 </form>
