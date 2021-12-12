@@ -104,6 +104,15 @@ app.use('/quizEditPost', (req, res, next) =>{
   }
 });
 
+app.use('/settings', (req, res, next) =>{
+  // console.log(Object.keys(req))
+  if(req.session.username){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+});
+
 app.use('/home', (req, res, next) =>{
   if(req.session.username && req.session.user == "instructor"){
     next()
