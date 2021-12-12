@@ -19,8 +19,8 @@ router.get('/',  async (req, res) =>{
         nameList.push(obj.quizName)
     }
 
-    if(session.user == "student"){
-        res.render("other/quizzes", {layout: "studentLogin" })
+    if(req.session.user == "student"){
+        res.render("other/quizzes", {layout: "studentLogin",  quizList: quizzes })
     }else{
         res.render("other/quizzes", {layout: "main", quizList: quizzes})
     }
@@ -40,7 +40,7 @@ router.get('/:id', async (req, res) => {
     //     quizQuestions.push()
     // }
 
-    if(session.user == "student"){
+    if(req.session.user == "student"){
         res.render("other/quiz-view", {layout: "studentLogin", quizTitle: quiz.quizName, questions: quizQuestions  })
     }else{
         res.render("other/quiz-view", {layout: "main", quizTitle: quiz.quizName, questions: quizQuestions })
