@@ -1,0 +1,17 @@
+<table>
+    <tr>
+        <th>Student Name</th>
+        <th>Quiz Name</th>
+        <th>Quiz Grades</th>
+    </tr>
+    <main id = "gradeslist">
+    {{#if getAllStudentsData}}
+        {{#each getAllStudentsData}}
+           
+            <td>{{this.studentName}}</td>
+            <td>{{this.quizInfo.quizName}}</td>
+            <td>{{this.quizInfo.grades}}</td>
+        {{/each}}
+    {{/if}}
+    </main>
+</table>
