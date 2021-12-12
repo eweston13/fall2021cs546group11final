@@ -2,6 +2,7 @@ const loginPage = require('./loginPage');
 const signupPage = require('./signupPage');
 const homePage = require('./homePage');
 const lessonPage = require('./lessons');
+const gradesRoutes = require("./grades");
 
 const redirectHome = (req, res, next) => {
   
@@ -40,7 +41,7 @@ const constructorMethod = (app) => {
     app.use('/signup', redirectHome, signupPage);
     app.use('/lesson', lessonPage);
     app.use('/home', redirectHome, homePage);
-  
+    app.use('/grades',gradesRoutes);
     app.use('*', redirectHome)
   };
   

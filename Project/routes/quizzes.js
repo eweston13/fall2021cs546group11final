@@ -86,37 +86,82 @@ router.post('/', async (req, res) => {
           return;
         }
 
-        if(Array.isArray((new_quizData.quizData[i]['options'])) == false)
+        if(typeof new_quizData.quizData[i]['options'] !== "object")
         {
-          res.status(400).json({ error: 'The options field should be an array' });
+          res.status(400).json({ error: 'The answer options should be an object' });
           return;
         }
 
-        if((new_quizData.quizData[i]['options']).length == 0)
+        if(!new_quizData.quizData[i]['options']['a'])
         {
-          res.status(400).json({ error: 'The options field should not be empty' });
+          res.status(400).json({ error: 'The first answer option is not provided' });
           return;
         }
 
-        for(let j=0;j<(new_quizData.quizData[i]['options']).length;j++)
+        if(typeof new_quizData.quizData[i]['options']['a'] !== "string")
         {
-            if(!(new_quizData.quizData[i]['options'][j])) 
-            {
-              res.status(400).json({ error: 'Please provide the answer option' });
-              return;
-            }
+          res.status(400).json({ error: 'The first answer option should be a string' });
+          return;
+        }
 
-            if(typeof (new_quizData.quizData[i]['options'][j]) !== "string")
-            {
-              res.status(400).json({ error: 'The answer option should be a string' });
-              return;  
-            }
+        if(new_quizData.quizData[i]['options']['a'].length == 0 || new_quizData.quizData[i]['options']['a'].trim().length == 0)
+        {
+          res.status(400).json({ error: 'The first answer option cannot be empty' });
+          return;
+        }
 
-            if((new_quizData.quizData[i]['options'][j]).length == 0 || (new_quizData.quizData[i]['options'][j]).trim().length == 0)
-            {
-              res.status(400).json({ error: 'The answer option cannot be empty' });
-              return;
-            }
+        if(!new_quizData.quizData[i]['options']['b'])
+        {
+          res.status(400).json({ error: 'The second answer option is not provided' });
+          return;
+        }
+
+        if(typeof new_quizData.quizData[i]['options']['b'] !== "string")
+        {
+          res.status(400).json({ error: 'The second answer option should be a string' });
+          return;
+        }
+
+        if(new_quizData.quizData[i]['options']['b'].length == 0 || new_quizData.quizData[i]['options']['b'].trim().length == 0)
+        {
+          res.status(400).json({ error: 'The second answer option cannot be empty' });
+          return;
+        }
+
+        if(!new_quizData.quizData[i]['options']['c'])
+        {
+          res.status(400).json({ error: 'The third answer option is not provided' });
+          return;
+        }
+
+        if(typeof new_quizData.quizData[i]['options']['c'] !== "string")
+        {
+          res.status(400).json({ error: 'The third answer option should be a string' });
+          return;
+        }
+
+        if(new_quizData.quizData[i]['options']['c'].length == 0 || new_quizData.quizData[i]['options']['c'].trim().length == 0)
+        {
+          res.status(400).json({ error: 'The third answer option cannot be empty' });
+          return;
+        }
+
+        if(!new_quizData.quizData[i]['options']['d'])
+        {
+          res.status(400).json({ error: 'The fourth answer option is not provided' });
+          return;
+        }
+
+        if(typeof new_quizData.quizData[i]['options']['d'] !== "string")
+        {
+          res.status(400).json({ error: 'The fourth answer option should be a string' });
+          return;
+        }
+
+        if(new_quizData.quizData[i]['options']['d'].length == 0 || new_quizData.quizData[i]['options']['d'].trim().length == 0)
+        {
+          res.status(400).json({ error: 'The fourth answer option cannot be empty' });
+          return;
         }
 
         if(!new_quizData.quizData[i]['correctAnswer'])
@@ -382,39 +427,84 @@ router.put('/:id', async (req, res) => {
           return;
         }
 
-        if(Array.isArray((toUpdatequiz.quizData[i]['options'])) == false)
+        if(typeof toUpdatequiz.quizData[i]['options'] !== "object")
         {
-          res.status(400).json({ error: 'The options field should be an array' });
+          res.status(400).json({ error: 'The answer options should be an object' });
           return;
         }
 
-        if((toUpdatequiz.quizData[i]['options']).length == 0)
+        if(!toUpdatequiz.quizData[i]['options']['a'])
         {
-          res.status(400).json({ error: 'The options field should not be empty' });
+          res.status(400).json({ error: 'The first answer option is not provided' });
           return;
         }
 
-        for(let j=0;j<(toUpdatequiz.quizData[i]['options']).length;j++)
+        if(typeof toUpdatequiz.quizData[i]['options']['a'] !== "string")
         {
-            if(!(toUpdatequiz.quizData[i]['options'][j])) 
-            {
-              res.status(400).json({ error: 'Please provide the answer option' });
-              return;
-            }
-
-            if(typeof (toUpdatequiz.quizData[i]['options'][j]) !== "string")
-            {
-              res.status(400).json({ error: 'The answer option should be a string' });
-              return;  
-            }
-
-            if((toUpdatequiz.quizData[i]['options'][j]).length == 0 || (toUpdatequiz.quizData[i]['options'][j]).trim().length == 0)
-            {
-              res.status(400).json({ error: 'The answer option cannot be empty' });
-              return;
-            }
+          res.status(400).json({ error: 'The first answer option should be a string' });
+          return;
         }
 
+        if(toUpdatequiz.quizData[i]['options']['a'].length == 0 || toUpdatequiz.quizData[i]['options']['a'].trim().length == 0)
+        {
+          res.status(400).json({ error: 'The first answer option cannot be empty' });
+          return;
+        }
+
+        if(!toUpdatequiz.quizData[i]['options']['b'])
+        {
+          res.status(400).json({ error: 'The second answer option is not provided' });
+          return;
+        }
+
+        if(typeof toUpdatequiz.quizData[i]['options']['b'] !== "string")
+        {
+          res.status(400).json({ error: 'The second answer option should be a string' });
+          return;
+        }
+
+        if(toUpdatequiz.quizData[i]['options']['b'].length == 0 || toUpdatequiz.quizData[i]['options']['b'].trim().length == 0)
+        {
+          res.status(400).json({ error: 'The second answer option cannot be empty' });
+          return;
+        }
+
+        if(!toUpdatequiz.quizData[i]['options']['c'])
+        {
+          res.status(400).json({ error: 'The third answer option is not provided' });
+          return;
+        }
+
+        if(typeof toUpdatequiz.quizData[i]['options']['c'] !== "string")
+        {
+          res.status(400).json({ error: 'The third answer option should be a string' });
+          return;
+        }
+
+        if(toUpdatequiz.quizData[i]['options']['c'].length == 0 || toUpdatequiz.quizData[i]['options']['c'].trim().length == 0)
+        {
+          res.status(400).json({ error: 'The third answer option cannot be empty' });
+          return;
+        }
+
+        if(!toUpdatequiz.quizData[i]['options']['d'])
+        {
+          res.status(400).json({ error: 'The fourth answer option is not provided' });
+          return;
+        }
+
+        if(typeof toUpdatequiz.quizData[i]['options']['d'] !== "string")
+        {
+          res.status(400).json({ error: 'The fourth answer option should be a string' });
+          return;
+        }
+
+        if(toUpdatequiz.quizData[i]['options']['d'].length == 0 || toUpdatequiz.quizData[i]['options']['d'].trim().length == 0)
+        {
+          res.status(400).json({ error: 'The fourth answer option cannot be empty' });
+          return;
+        }
+        
         if(!toUpdatequiz.quizData[i]['correctAnswer'])
         {
           res.status(400).json({ error: 'The correctAnswer is not provided' });
