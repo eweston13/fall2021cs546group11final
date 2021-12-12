@@ -26,6 +26,7 @@ async function addStudent(firstName, lastName, email, username, password) {
         password: await bcrypt.hash(password, saltRounds),
         lessonsViewed: [],
         quizzesCompleted: [],
+        questionsAsked: []
     };
 
     //REMEMBER TO MAKE USERNAMES LOWERCASE

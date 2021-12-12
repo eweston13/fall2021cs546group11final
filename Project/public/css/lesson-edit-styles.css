@@ -10,3 +10,11 @@ textarea {
     font-family: sans-serif;
     resize: none;
 }
+
+#tags li {
+	list-style-type: none;
+}
+
+#tags li:hover {
+	color: #eb4034;
+}

@@ -81,8 +81,8 @@ const updateLesson = async (id, name, body, tags, replies) => {
 		validateTextInput(name);
 		validateDBID(id);
 		validateTextInput(body);
-		validateTags(tags);
-		replies.forEach(validateTextInput);
+		tags.forEach(validateTextInput);
+		if (replies && replies.length > 1) replies.forEach(validateTextInput);
 	} catch (e) {
 		throw e;
 	}
@@ -90,34 +90,37 @@ const updateLesson = async (id, name, body, tags, replies) => {
 	const lessonCollection = await lessons();
 	const lessonId = new ObjectId(id);
 	let lesson = await lessonCollection.findOne({_id: lessonId});
-	lesson.name = name;
-	lesson.body = body;
-	lesson.tags = tags;
 	
-	const updateInfo = await lessonCollection.updateOne(
-		{_id: lessonId},
-		{$set: lesson}
-	);
-	if (updateInfo.modifiedCount === 0) throw `Could not update lesson`;
+	if (lesson.name != name || lesson.body != body.substring(3, body.length - 4) || lesson.tags != tags) {
+		lesson.name = name;
+		lesson.body = body.substring(3, body.length - 4);
+		lesson.tags = tags;
+	
+		const updateInfo = await lessonCollection.updateOne(
+			{_id: lessonId},
+			{$set: lesson}
+		);
+		if (updateInfo.modifiedCount === 0) console.log(`Could not update lesson`);
+	}
 	
 	// add replies to questions
-	if (replies.length != lesson.questions.length) console.log('ruh roh');
 	
 	const questionCollection = await questions();
 	
-	for (let i=0; i<lesson.questions; i++) {
+	for (let i=0; i<lesson.questions.length; i++) {
 		let questionId = new ObjectId(lesson.questions[i]);
 		let question = await questionCollection.findOne({_id: questionId});
-		question.reply = replies[i];
+		if (question.reply != replies[i]) {
+			question.reply = replies[i];
 		
-		let updateQuestion = await questionCollection.updateOne(
-			{_id: questionId},
-			{$set: question}
-		);
-		if (updateQuestion.modifiedCount === 0) console.log("couldn't update");
+			let updateQuestion = await questionCollection.updateOne(
+				{_id: questionId},
+				{$set: question}
+			);
+			if (updateQuestion.modifiedCount === 0) console.log("couldn't update");
+		}
 	}
 	
-	console.log('test');
 	return true;
 }
 

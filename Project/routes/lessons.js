@@ -5,8 +5,19 @@ const lessonsData = data.lessons;
 const instructorData = data.instructors;
 const studentData = data.students;
 
-// validation functions (write later)
+// validation functions
+function validateInput (field) {
+	if (!field) throw `No input given`;
+	if (typeof field != 'string') throw `Input must be a string`;
+}
 
+function validateArray (arr) {
+	if (!arr) throw `No input given`;
+	if (!Array.isArray(arr)) throw `Input must be an array of strings`;
+	for (let i=0; i<arr.length; i++) {
+		if (typeof arr[i] != 'string') throw `Input must be an array of strings`;
+	}
+}
 
 // routes
 
@@ -72,6 +83,9 @@ router.post('/view/:id', async (req, res) => {
 	const question = req.body.question;
 	
 	try {
+		validateInput(lessonId);
+		validateInput(studentId);
+		validateInput(question);
 		let questionAdded = await lessonsData.addQuestion(lessonId, studentId, question);
 		res.redirect(`/lesson/view/${lessonId}`);
 	} catch (e) {
@@ -84,6 +98,7 @@ router.get('/edit/:id', async (req, res) => {
 	// edit lesson view of lesson :id
 	try {
 		const lessonId = req.params.id;
+		validateInput(lessonId);
 		const lesson = await lessonsData.getLesson(lessonId);
 	
 		const title = lesson.name;
@@ -96,7 +111,7 @@ router.get('/edit/:id', async (req, res) => {
 			questions.push(question);
 		}
 	
-		res.render('other/edit-lesson-view', {extraStyles: '<link rel="stylesheet" href="../../public/css/lesson-edit-styles.css">', endpoint: `edit/${lessonId}`, lessonName: title, lessonAuthor: req.session.userId, lessonTags: tags, lessonText: body, questions: questions});
+		res.render('other/edit-lesson-view', {extraStyles: '<link rel="stylesheet" href="../../public/css/lesson-edit-styles.css">', endpoint: `edit/${lessonId}`, lessonName: title, lessonAuthor: req.session.userId, lessonTags: tags, lessonText: body, questions: questions, numQuestions: questions.length});
 	} catch (e) {
 		console.log(e);
 		res.redirect('/home');
@@ -109,11 +124,16 @@ router.post('/edit/:id', async (req, res) => {
 	const author = req.body.author;
 	const body = req.body.lessonBody;
 	const tags = req.body.lessonTagInput.split(',');
-	// need to collect questions and replies
+	const replies = req.body.replies.split('\\');
 	
 	// update lesson
 	try {
-		let updateLesson = await lessonsData.updateLesson(req.params.id, title, body, tags, []);
+		validateInput(title);
+		validateInput(author);
+		validateInput(body);
+		validateArray(tags);
+		validateArray(replies);
+		let updateLesson = await lessonsData.updateLesson(req.params.id, title, body, tags, replies);
 		res.redirect('/home');
 	} catch (e) {
 		res.status(500).json({error: e}).send();
@@ -131,17 +151,19 @@ router.get('/new', async (req, res) => {
 
 //------------------------------ CREATE NEW LESSON ------------------------------//
 router.post('/new', async (req, res) => {
-	// validate content
 	const title = req.body.lessonTitle;
 	const author = req.body.author;
 	const body = req.body.lessonBody;
 	const tags = req.body.lessonTagInput.split(',');
 	
 	try {
+		validateInput(title);
+		validateInput(author);
+		validateInput(body);
+		validateArray(tags);
 		let lessonCreation = await lessonsData.createLesson(title, author, body, tags);
 		if (lessonCreation) res.redirect('/home'); // idk if this is really correct, but i think it should redirect to the instructor's user page
 		else {
-			console.log('ruh roh');
 			res.status(500).send(); // elaborate on this later
 		}
 	} catch (e) {
