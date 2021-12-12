@@ -19,8 +19,8 @@
 <div>
     <h2>All Lessons</h2>
 
-    <form id='search'>
-        <label>Search <input type='text' name='searchTerm' /></label>
+    <form id='search' method="post">
+        <label>Search by Tag <input type='text' name='searchTerm' /></label>
         <input type='submit' />
     </form>
 
@@ -30,15 +30,4 @@
         {{/each}}
     </ul>
 
-</div>
-
-<!-- this is a list of quizzes (all quizzes for students, owned quizzes for professors) -->
-<div>
-    <h2>Quizzes</h2>
-
-    <ul>
-        {{#each quizList}}
-            <li><a href='/quiz/edit/{{this.id}}'>{{this.name}}</a></li>
-        {{/each}}
-    </ul>
 </div>

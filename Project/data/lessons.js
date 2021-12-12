@@ -268,7 +268,36 @@ const getAllLessons = async () => {
 	const lessonCollection = await lessons();
 	const lessonList = await lessonCollection.find({}).toArray();
 	
-	return lessonList;
+	let list = [];
+	for (let i=0; i<lessonList.length; i++) {
+		list.push({
+			id: lessonList[i]._id.toString(),
+			name: lessonList[i].name,
+			body: lessonList[i].body,
+			tags: lessonList[i].tags,
+			questions: lessonList[i].questions
+		});
+	}
+	
+	return list;
+}
+
+const getLessonsByTag = async (tag) => {
+	try {
+		validateTextInput(tag);
+	} catch (e) {
+		throw e;
+	}
+	const lessonList = await getAllLessons();
+	let results = [];
+	
+	for (let i=0; i<lessonList.length; i++) {
+		for (let j=0; j<lessonList[i].tags.length; j++) {
+			if (lessonList[i].tags[j] == tag) results.push(lessonList[i]);
+		}
+	}
+	
+	return results;
 }
 
 const getSomeLessons = async (num) => {
@@ -315,6 +344,7 @@ module.exports = {
 	getQuestion,
 	addReply,
 	getAllLessons,
+	getLessonsByTag,
 	getSomeLessons,
 	getAuthorId
 }
