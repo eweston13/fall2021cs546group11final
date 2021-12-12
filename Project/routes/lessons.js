@@ -143,7 +143,7 @@ router.post('/edit/:id', async (req, res) => {
 //------------------------------ CREATE NEW LESSON ------------------------------//
 router.get('/new', async (req, res) => {
 	try {
-		res.render('other/edit-lesson-view', {extraStyles: '<link rel="stylesheet" href="../../public/css/lesson-edit-styles.css">', endpoint: 'new', lessonName: '', lessonAuthor: req.session.userId, lessonTags: '', lessonText: '', questions: []});
+		res.render('other/edit-lesson-view', {extraStyles: '<link rel="stylesheet" href="../../public/css/lesson-edit-styles.css">', endpoint: 'new', lessonName: '', lessonAuthor: req.session.userId, lessonTags: '', lessonText: '', questions: [], numQuestions: 0});
 	} catch (e) {
 		console.log(e);
 	}
