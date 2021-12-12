@@ -1,3 +1,144 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin: 0;
+  color: #F5F7F7;
+  background-color: #79031D;
+  line-height: 1.4;
+}
+
+button {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #EDB518;
+  border-radius: 100px; 
+  padding: 10px 15px;
+  border: 2px solid #EDB518;
+  color: #79031D;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+button:active, button:hover {
+  background-color: #fbdc43;
+  color: #f5f7f7;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-child {
+  flex: 1;
+  margin-top: 30px;
+  margin-right: 50px;
+}  
+
+.flex-child:first-child {
+  margin-right: 50px;
+  margin-top: 30px;
+  margin-left: 50px;
+}
+
+hr {
+  display:block;
+  height:1px;
+  border:0;   	
+  border-top:3px solid #000407;
+  margin:1em 0;
+  padding:0;
+}
+
+
+#logo {
+  margin-left: 50px;
+  font-size: 3em;
+  font-weight: 900;
+  color: #EDB518;
+  
+  --x-offset: -0.0625em;
+  --y-offset: 0.0625em;
+  --stroke: 0.025em;
+  --background-color: #79031D;
+  --stroke-color: #000407;
+  
+  text-shadow: 
+    
+    var(--x-offset)
+    var(--y-offset)
+    0px
+    var(--background-color), 
+    
+    calc( var(--x-offset) - var(--stroke) )
+    calc( var(--y-offset) + var(--stroke) )
+    0px
+    var(--stroke-color);
+}
+
+form {
+  background-color: #000407;
+  border-radius: 20px;
+  box-sizing: border-box;
+  height: 500px;
+  padding: 20px;
+  width: 320px;
+}
+
+#title {
+  color: #f5f7f7;
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 30px;
+}
+
+#subtitle {
+  color: #f5f7f7;
+  font-size: 26px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.title {
+  color: #f5f7f7;
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 30px;
+}
+
+form#input {
+  background-color: #303245;
+  border-radius: 12px;
+  border: 0;
+  box-sizing: border-box;
+  color: #eee;
+  font-size: 18px;
+  height: 100%;
+  outline: 0;
+  padding: 4px 20px 0;
+  width: 100%;
+}
+
+a#subtitle {
+  border-bottom: 1px solid #453886;
+  color: #453886;
+  padding-bottom: .25em;
+  text-decoration: none;
+}
+
+a#subtitle:hover {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23453886' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+  background-position: bottom;
+  background-repeat: repeat-x;
+  background-size: 20%;
+  border-bottom: 0;
+  padding-bottom: .3em;
+  text-decoration: none;
+}
+
+html, body {
+  height:  100%;
+}
+
 .topnav {
     background-color: #333;
     overflow: hidden;
