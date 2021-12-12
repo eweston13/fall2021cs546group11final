@@ -62,8 +62,10 @@ router.post('/studentlogin', async (req, res) => {
 
   if(theUser.authenticated == true){
     //console.log("here")
-    req.session.username = username 
-    res.redirect('/home')
+    req.session.username = username;
+    req.session.userId = await studentData.getStudentId(username);
+    req.session.user = "student"
+    res.redirect('/studenthome')
   }else{
     res.json('error')
   }
@@ -119,7 +121,9 @@ router.post('/instructorlogin', async (req, res) => {
 
   if(theUser.authenticated == true){
     //console.log("here")
-    req.session.username = instructorUsername 
+    req.session.username = instructorUsername ;
+    req.session.userId = await instructorData.getInstructorId(instructorUsername);
+    req.session.user = "instructor"
     res.redirect('/home')
   }else{
     res.json('error')

@@ -5,6 +5,7 @@ const static = express.static(__dirname + '/public');
 const cookieParser = require('cookie-parser'); 
 const configRoutes = require('./routes');
 const seed = require('./tasks/seed');
+const lessonData = require('./data/lessons');
 
 app.use(cookieParser());
 
@@ -53,29 +54,109 @@ app.use(
   })
 );
 
+// app.use('/', (req, res, next) =>{
+//   // console.log(Object.keys(req))
+
+//   if(req.session.username){
+//     console.log("[",new Date().toUTCString(), "]: ", req.method, req.originalUrl, req.session.user, req.session.username,  " (Authenticated User)")
+//   }else{
+//     console.log("[",new Date().toUTCString(), "]: ", req.method, req.originalUrl, " (Non-Authenticated User)")
+//     res.redirect('/login')
+//     return
+//   }
+
+//   next()
+//   }
+// );
+
+app.use('/login', (req, res, next) =>{
+  if(req.session.username){
+  	console.log(req.session.username);
+    if(req.session.user == "student"){
+      res.redirect('/studenthome')
+    }else if(req.session.user == "instructor"){
+      res.redirect('/home')
+    }
+  }else{
+    // res.redirect('/login')
+    next()
+  }
+});
+
+
+app.use('/quiz', (req, res, next) =>{
+  // console.log(Object.keys(req))
+  if(req.session.username){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+});
+
+app.use('/quizEditPost', (req, res, next) =>{
+  // console.log(Object.keys(req))
+  if(req.session.username && req.session.user == "instructor"){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+});
+
+app.use('/home', (req, res, next) =>{
+  if(req.session.username && req.session.user == "instructor"){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+});
+
+app.use('/studenthome', (req, res, next) =>{
+  if(req.session.username && req.session.user == "student"){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+});
+
+app.use('/lesson/edit/:id', async (req, res, next) => {
+	const id = req.params.id;
+	
+	if (!req.session.user) res.redirect(`/lesson/view/${id}`);
+	else if (req.session.user != 'instructor') res.redirect(`/lesson/view/${id}`);
+	else {
+		const lessonAuthor = await lessonData.getAuthorId(id);
+		if (lessonAuthor != req.session.userId) res.redirect(`/lesson/view/${id}`);
+		else next();
+	}
+});
+
+app.use('/lesson/new', (req, res, next) => {
+	if (!req.session.user) res.redirect('/login');
+	if (req.session.user != 'instructor') res.redirect('/home');
+	else next();
+});
+
 app.use('/', (req, res, next) =>{
   // console.log(Object.keys(req))
 
   if(req.session.username){
-    console.log("[",new Date().toUTCString(), "]: ", req.method, req.originalUrl, " (Authenticated User)")
+    console.log("[",new Date().toUTCString(), "]: ", req.method, req.originalUrl, req.session.user, req.session.username,  " (Authenticated User)")
   }else{
     console.log("[",new Date().toUTCString(), "]: ", req.method, req.originalUrl, " (Non-Authenticated User)")
+    if(req.originalUrl == '/'){
+      res.redirect('/login')
+      return
+    }
   }
-
-  // if(req.url == '/' && req.session.username ){
-  //   return res.redirect('/home')
-  // }else{
-  //   next()
-  // }
-
-  // if(req.session.username && req.originalUrl == '/login' || req.session.username && req.originalUrl == '/signup/'){
-  //   return res.redirect("/home")
-  // }
 
   next()
   }
 );
 
+// app.use('*', (req, res, next) =>{
+//   res.redirect('/login')
+//   return
+// });
 
 
 

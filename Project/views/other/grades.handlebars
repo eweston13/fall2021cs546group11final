@@ -1,0 +1,12 @@
+<h1>Grades</h1>
+
+<table id="studentGrades">
+	{{#each grades}}
+		<tr>
+			<!-- column for quiz name-->
+			<td>{{this.title}}</td>
+			<!-- column for grade on the quiz -->
+			<td>{{this.grade}}</td>
+		</tr>
+	{{/each}}
+</table>

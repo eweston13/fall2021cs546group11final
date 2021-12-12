@@ -2,89 +2,50 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const quizData = data.quizzes;
-const { ObjectId } = require('mongodb');
+const instructorData = data.instructors
 
-//-----------------CREATE A QUIZ (FOR INSTRUCTORS)----------------//
+// validation
+function validateId(id) {
+	if (!id) throw `No ID provided`;
+	if (typeof id != 'string') throw `ID must be a string`;
+	if (id.length != 24) throw `ID's must be 24-character alphanumeric strings`;
+	for (let i=0; i<id.length; i++) {
+		let A = id.charCodeAt(i);
+		if (A<48 || (A>57 && A<97) || A>122) throw `ID must consist of numbers and lowercase letters`;
+	}
+}
 
-router.post('/', async (req, res) => {
+// routes
+//----------------- VIEW A QUIZ (STUDENTS) -----------------//
+router.get('/view/:id', async (req, res) => {
+	const quizId = req.params.id;
+	try {
+		validateId(quizId);
+		
+		const quiz = await quizData.getQuizById(quizId);
+		
+		let questions = [];
+		
+		for (let i=0; i<quiz.quizData.length; i++) {
+			questions.push({question: quiz.quizData[i].question, option1: quiz.quizData[i].options[0], option2: quiz.quizData[i].options[1], option3: quiz.quizData[i].options[2], option4: quiz.quizData[i].options[3]});
+		}
+		
+		res.render('other/quiz-view', {quizTitle: quiz.quizName, questions: questions});
+	} catch (e) {
+		console.log(e);
+		res.json({error: e}).send();
+	}
+});
 
-    const new_quizData = req.body;
+//----------------- SUBMIT QUIZ ATTEMPT (STUDENTS) -----------------//
+router.post('/view/:id', async (req, res) => {
+	console.log(req.body);
+});
 
-    if(!new_quizData.quizName)
-    {
-      res.status(400).json({ error: 'The quizName is not provided' });
-      return;
-    }
-
-    if(typeof (new_quizData.quizName) !== "string")
-    {
-      res.status(400).json({ error: 'The quizName should be a string' });
-      return;
-    }
-
-    if((new_quizData.quizName).length == 0 || (new_quizData.quizName).trim().length == 0)
-    {
-      res.status(400).json({ error: 'The quizName cannot be empty' });
-      return;
-    }
-
-    if(!(new_quizData.authorId))
-    {
-      res.status(400).json({ error: 'The authorId is not provided' });
-      return;
-    }
-
-    if(typeof (new_quizData.authorId) !== "string")
-    {
-      res.status(400).json({ error: 'The authorId should be a string' });
-      return;
-    }
-
-    if((new_quizData.authorId).length == 0 || (new_quizData.authorId).trim().length == 0)
-    {
-      res.status(400).json({ error: 'The authorId cannot be empty' });
-      return;
-    }
-
-    let quizInfo = [];
-
-    if(Array.isArray(new_quizData.quizData) == false)
-    {
-        res.status(400).json({ error: 'The quizData should be an array' });
-        return;
-    }
-
-    if((new_quizData.quizData).length == 0)
-    {
-        res.status(400).json({ error: 'The quizData should not be empty' });
-        return;
-    }
-
-    for(let i=0;i<(new_quizData.quizData).length;i++)
-    {
-        if(!(new_quizData.quizData[i]['question']))
-        {
-          res.status(400).json({ error: 'The question is not provided' });
-          return;
-        }
-
-        if(typeof (new_quizData.quizData[i]['question']) !== "string")
-        {
-          res.status(400).json({ error: 'The question should be a string' });
-          return;
-        }
-
-        if((new_quizData.quizData[i]['question']).length == 0 || (new_quizData.quizData[i]['question']).trim().length == 0)
-        {
-          res.status(400).json({ error: 'The question cannot be empty' });
-          return;
-        }
-
-        if(!(new_quizData.quizData[i]['options']))
-        {
-          res.status(400).json({ error: 'The options is not provided' });
-          return;
-        }
+//----------------- EDIT QUIZ VIEW (INSTRUCTORS) -----------------//
+router.get('/edit/:id', async (req, res) => {
+	
+});
 
         if(typeof new_quizData.quizData[i]['options'] !== "object")
         {
@@ -163,38 +124,58 @@ router.post('/', async (req, res) => {
           res.status(400).json({ error: 'The fourth answer option cannot be empty' });
           return;
         }
+//----------------- EDIT QUIZ (INSTRUCTORS) -----------------//
+router.post('/edit/:id', async (req, res) => {
+	console.log(req.body);
+});
 
-        if(!new_quizData.quizData[i]['correctAnswer'])
-        {
-          res.status(400).json({ error: 'The correctAnswer is not provided' });
-          return;
-        }
+//----------------- CREATE NEW QUIZ (INSTRUCTORS) -----------------//
+router.post('/new', async (req, res) => {
+	console.log(req.body);
+});
 
-        if(typeof (new_quizData.quizData[i]['correctAnswer']) !== "string")
-        {
-          res.status(400).json({ error: 'The correctAnswer should be a string' });
-          return;
-        }
 
-        if((new_quizData.quizData[i]['correctAnswer']).length == 0 || (new_quizData.quizData[i]['correctAnswer']).trim().length == 0)
-        {
-          res.status(400).json({ error: 'The correctAnswer cannot be empty' });
-          return;
-        }
+// old routes
 
-        quizInfo.push(new_quizData.quizData[i]);
-    }
+/*
+
+//-----------------CREATE A QUIZ (FOR INSTRUCTORS)----------------//
+
+router.post('/', async (req, res) => {
+    console.log("The req.body:", req.body)
+    console.log("The req.body[0]:", req.body[0])
+    console.log("The req.body[0].quizTitle:", req.body[0].quizTitle)
+
+    const new_quizData = req.body;
+
+    let instructorId = await instructorData.getInstructorID(req.session.username)
+
+    let quizQuestions = []
+    // console.log("test")
+    for(obj of req.body){
+      quizQuestions.push({questionId: obj.questionId, 
+                          question: obj.question, 
+                          correctAns: obj.correctAns, 
+                          options: [{A: obj.A}, 
+                                    {B: obj.B}, 
+                                    {C: obj.C}, 
+                                    {D:obj.D}]})
+                                  }
+    // console.log("test1: ", quizQuestions)
 
     try {
-      const newQuiz = await quizData.createQuiz(new_quizData.quizName,new_quizData.authorId,quizInfo);
-      res.json(newQuiz);
+      // console.log("test2: ", instructorId)
+      await quizData.createQuiz(req.body[0].quizTitle, instructorId, quizQuestions);
+      // console.log("test3")
+      // res.json(newQuiz);
     } catch (e) {
+      // console.log("test4")
       res.status(400).json({ error: e });
     }
 });
 //-------------GET QUIZ INFO BY ID (FOR INSTRUCTORS)--------------//
 
-router.get('/:id', async (req, res) => {
+router.get('/view/:id', async (req, res) => {
 
     const id = req.params.id;
   
@@ -225,7 +206,7 @@ router.get('/:id', async (req, res) => {
     try {
         const quizInfo = await quizData.getQuizById(req.params.id);
         console.log(quizInfo);
-        res.json(quizInfo);
+        res.render('other/quiz-view', {quizTitle: quizInfo.quizName, questions: quizInfo.quizData});
       } catch (e) {
         res.status(404).json({ message: 'Quiz not found!' });
       }
@@ -542,4 +523,6 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({ error: e});
     }
 });
+*/
+
   module.exports = router;

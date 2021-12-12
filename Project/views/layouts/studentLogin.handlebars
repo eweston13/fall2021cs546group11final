@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>CAD Academy | Login</title>
+    <title>My Site</title>
     <link rel="stylesheet" href="../../public/css/generalStyles.css">
 </head>
 
@@ -11,8 +11,21 @@
     <main class="container">
         <div class="row">
             <div class="col-sm-6">
-                <h1>CAD Academy</h1>       
-                   {{{body}}}
+                   <h1>Student logged in</h1>                 
+                    <div>
+                        <div class="topnav">
+                        <a href="/studenthome">Home</a>
+                        <a href="/lesson">Lessons</a>
+                        <a href="/quiz">Quizzes</a>
+                        <a href="/grade">Grades</a>
+                        <a href="/settings">Settings</a>
+                        <a href="/signout">Sign Out</a>
+
+                    </div>
+                    <div>
+                        {{{body}}}
+                    </div>
+
             </div>
         </div>
     </main>
@@ -21,9 +34,7 @@
         crossorigin="anonymous"></script>
     {{!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script> --}}
-    {{!-- <script src="/public/js/form.js"></script> --}}
-    <script src="/public/js/quizCreate.js"></script> 
-
+    
 </body>
 
 </html>
