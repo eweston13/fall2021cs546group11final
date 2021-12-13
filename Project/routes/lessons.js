@@ -70,7 +70,7 @@ router.get('/view/:id', async (req, res) => {
 		authorName = ''; // not sure if a deleted instructor should be left blank or indicate the instructor is no longer in the database
 	}
 	
-	let layout = '';
+	let layout = 'main';
 	if (req.session.user == 'student') {
 		let addLessonView = await studentData.addViewedLesson(req.session.userId, lessonId);
 		layout = 'studentLogin';
