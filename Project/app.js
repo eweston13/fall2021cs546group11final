@@ -71,7 +71,7 @@ app.use(
 
 app.use('/login', (req, res, next) =>{
   if(req.session.username){
-  	console.log(req.session.username);
+  	//console.log(req.session.username);
     if(req.session.user == "student"){
       res.redirect('/studenthome')
     }else if(req.session.user == "instructor"){
@@ -83,6 +83,15 @@ app.use('/login', (req, res, next) =>{
   }
 });
 
+app.use('/signout', (req, res, next) => {
+  if(!req.session.username){
+  	//console.log(req.session.username);
+    res.redirect('/login')
+  }else{
+    // res.redirect('/login')
+    next()
+  }
+})
 
 app.use('/quiz', (req, res, next) =>{
   // console.log(Object.keys(req))
