@@ -1,18 +1,20 @@
 <!-- this view is for students taking a quiz -->
 
-<h1>{{quizTitle}}</h2>
+<div class='flex-container'>
+	<h1>{{quizTitle}}</h2>
 
-<form id="quiz" action="/quiz/{{quizId}}" method="post">
+	<form id="quiz" action="/quiz/{{quizId}}" method="post">
 
-{{#each questions}}
-	<h3><label for="question{{@index}}">{{this.question}}</label></h3>
-		<p><label><input type="radio" name="question{{@index}}" value="A"> {{this.options.[0]}}</label></p>
-		<p><label><input type="radio" name="question{{@index}}" value="B"> {{this.options.[1]}}</label></p>
-		<p><label><input type="radio" name="question{{@index}}" value="C"> {{this.options.[2]}}</label></p>
-		<p><label><input type="radio" name="question{{@index}}" value="D"> {{this.options.[3]}}</label></p>
-	<br>
-{{/each}}
+	{{#each questions}}
+		<h3><label for="question{{@index}}">{{this.question}}</label></h3>
+			<p><label><input type="radio" name="question{{@index}}" value="A"> {{this.options.[0]}}</label></p>
+			<p><label><input type="radio" name="question{{@index}}" value="B"> {{this.options.[1]}}</label></p>
+			<p><label><input type="radio" name="question{{@index}}" value="C"> {{this.options.[2]}}</label></p>
+			<p><label><input type="radio" name="question{{@index}}" value="D"> {{this.options.[3]}}</label></p>
+		<br>
+	{{/each}}
 
-<input type="submit">
+	<input type="submit">
 
-</form>
+	</form>
+</div>

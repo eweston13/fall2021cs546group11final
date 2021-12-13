@@ -4,13 +4,12 @@
         <th>Quiz Grades</th>
     </tr>
 
-    <main id = "gradeslist">
-    {{#if getAllQuizData}}
-        {{#each getAllQuizData}}
-            <td>{{this.quizName}}</td>
-            <td>{{this.grades}}</td>
-        {{/each}}
-    {{/if}}
-</main>
+    <main id='gradeslist'>
+        {{#if getAllQuizData}}
+            {{#each getAllQuizData}}
+                <td>{{this.quizName}}</td>
+                <td>{{this.grades}}</td>
+            {{/each}}
+        {{/if}}
+    </main>
 </table>
-
