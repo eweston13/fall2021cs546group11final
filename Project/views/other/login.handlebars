@@ -1,51 +1,55 @@
 <div class='flex-container'>
 
     <form class='flex-child' id='login-form' method='post' action='/login/studentlogin'>
-        <h1 id='title'>Student Login</h1>
-        {{StudentError}}
+        <h1 class='title'>Student</h1>
         <br />
         <br />
-        <label for='username' id='subtitle'>Username</label>
+        <label for='username' class='subtitle'>Username</label>
         <br />
         <input type='text' id='username' name='username' />
         <br />
         <br />
         <br />
-        <label for='password' id='subtitle'>Password</label>
+        <label for='password' class='subtitle'>Password</label>
         <br />
         <input type='password' id='password' name='password' />
         <br />
         <br />
         <br />
-        <a href='signup' id='subtitle'>Need to register? Click here!</a>
-        <br />
-        <br />
-        <br />
         <button type='submit' id='login-Button'>Submit</button>
+        <br />
+        <br />
+        <br />
     </form>
 
+    {{StudentError}}
+
     <form class='flex-child' id='login-form' method='post' action='/login/instructorlogin'>
-        <h1 id='title'>Instructor Login</h1>
-        {{InstructorError}}
+        <h1 class='title'>Instructor</h1>
         <br />
         <br />
-        <label for='instructorUsername' id='subtitle'>Username</label>
+        <label for='instructorUsername' class='subtitle'>Username</label>
         <br />
         <input type='text' id='instructorUsername' name='instructorUsername' />
         <br />
         <br />
         <br />
-        <label for='instructorPassword' id='subtitle'>Password</label>
+        <label for='instructorPassword' class='subtitle'>Password</label>
         <br />
         <input type='password' id='instructorPassword' name='instructorPassword' />
         <br />
         <br />
         <br />
-        <a href='signup' id='subtitle'>Need to register? Click here!</a>
-        <br />
-        <br />
-        <br />
         <button type='submit' id='login-Button'>Submit</button>
+        <br />
+        <br />
+        <br />
     </form>
 
+    {{InstructorError}}
+
 </div>
+<br />
+<br />
+<br />
+<a href='/signup' class='subtitle center'>Need to register? Click here!</a>

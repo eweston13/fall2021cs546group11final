@@ -6,19 +6,21 @@
 	</ul>
 </nav>
 
-<main>
-	<h1>{{lessonName}}</h1>
-	<h2>Author: {{authorName}}</h2>
-	<p id="lessonTags">{{lessonTags}}</p>
-	<p>{{{lessonText}}}</p>
-	
-	<form id="askQuestion" method="post">
-		<label>Ask Question<br><input type="text" name="question"></label>
-		<input type="submit">
-	</form>
-	
-	{{#each questions}}
-		<h4>{{this.question}}</h4>
-		<p>{{this.reply}}</h4>
-	{{/each}}
-</main>
+<div class='flex-container'>
+	<main>
+		<h1>{{lessonName}}</h1>
+		<h2>Author: {{authorName}}</h2>
+		<p id="lessonTags">{{lessonTags}}</p>
+		<p>{{{lessonText}}}</p>
+		
+		<form id="askQuestion" method="post">
+			<label>Ask Question<br><input type="text" name="question"></label>
+			<input type="submit">
+		</form>
+		
+		{{#each questions}}
+			<h4>{{this.question}}</h4>
+			<p>{{this.reply}}</h4>
+		{{/each}}
+	</main>
+</div>

@@ -1,7 +1,7 @@
 <!-- display relevant lesson list -->
-<h1>Home</h1>
+<h1 class ='title'>Home</h1>
 
-<div>
+<div class = 'flex-child'>
     <!-- for students this is recently viewed, for instructors it's owned lessons -->
     <h2>{{heading}}</h2>
 
@@ -16,17 +16,29 @@
 </div>
 
 <!-- this list appears to students only -->
-<div>
-    <h2>All Lessons</h2>
+<div class = 'flex-child'>
 
     <form id='search' method="post">
-        <label>Search by Tag <input type='text' name='searchTerm' /></label>
-        <input type='submit' />
+        <br />
+        <h1 class ='title'>All Lessons</h1>
+        <br />
+        <br />
+        <label for 'searchTerm' class='subtitle'>Search by Tag</label>
+        <br />
+
+        <input type='text' name='searchTerm'/>
+        <br />
+        <br />
+        <br />
+        <button type='submit' >Submit</button>
+        <br />
+        <br />
+        <br />
     </form>
 
     <ul>
         {{#each secondLessonList}}
-            <li><a href='/lesson/view/{{this.id}}'>{{this.name}}</a></li>
+            <li class='subtitle'><a href='/lesson/view/{{this.id}}'>{{this.name}}</a></li>
         {{/each}}
     </ul>
 

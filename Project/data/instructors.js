@@ -25,7 +25,7 @@ async function addInstructor(firstName, lastName, email, username, password) {
         username: username.toLowerCase(),
         password: await bcrypt.hash(password, saltRounds),
         lessonsCreated: [],
-        quizzesCreated: []
+        quizzesCreated: [],
     };
 
     const newInsertInformation = await instructorCollection.insertOne(newUser);
@@ -44,7 +44,7 @@ async function getInstructorById(id) {
 
 async function deleteInstructor(id) {
     const instructorCollection = await instructors();
-    var convertedId = new ObjectId(id)
+    var convertedId = new ObjectId(id);
     const deletionInfo = await instructorCollection.remove({ _id: convertedId });
     if (deletionInfo.deletedCount === 0) {
         throw `Could not delete user with the id of "${id}"`;
@@ -74,8 +74,11 @@ async function updateInstructor(id, firstName, lastName, email, username, passwo
         password: await bcrypt.hash(password, saltRounds),
     };
 
-    var convertedId = new ObjectId(id)
-    const updateInfo = await instructorCollection.updateOne({ _id: convertedId}, { $set: instructorUpdateInfo });
+    var convertedId = new ObjectId(id);
+    const updateInfo = await instructorCollection.updateOne(
+        { _id: convertedId },
+        { $set: instructorUpdateInfo },
+    );
     if (!updateInfo.matchedCount && !updateInfo.modifiedCount) {
         throw 'Update failed';
     }
@@ -172,13 +175,13 @@ async function test() {
     console.log('Instructor check:', instructor1verif);
 }
 
-async function getInstructorIdWithUsername(uname){
+async function getInstructorIdWithUsername(uname) {
     const instructorCollection = await instructors();
-    const instructor = await instructorCollection.findOne({username: uname});
+    const instructor = await instructorCollection.findOne({ username: uname });
 
     if (instructor === null) return 'Couldnt find instructor with this username';
 
-    return instructor._id
+    return instructor._id;
 }
 
 async function getInstructorName(id) {
@@ -201,5 +204,5 @@ module.exports = {
     updateInstructor,
     addOwnedLesson,
     getOwnedLessons,
-    getInstructorIdWithUsername
+    getInstructorIdWithUsername,
 };

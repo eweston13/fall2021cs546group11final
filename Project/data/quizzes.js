@@ -166,6 +166,27 @@ const getQuizById = async (id) => {
 	return quiz;
 }
 
+const removeQuiz = async (id) => {
+
+    if(!id) throw "The id parameter is not given";
+    // if(typeof (id) !== "string") throw "The id parameter should be of type string";
+    if(id.length == 0 || id.trim().length == 0) throw "The id parameter cannot be empty";
+    if(!ObjectId.isValid(id)) throw "The ObjectId is not valid";
+    
+
+    let parsedId = ObjectId(id);
+
+    const quizCollection = await quizzes();
+
+    const deletionInfo = await quizCollection.deleteOne({ _id: parsedId });
+
+    if (!deletionInfo.deletedCount>0) {
+        throw `Could not delete the quiz with the given id of ${id}`;
+    }
+    
+    return `Successfully deleted the quiz with the given id ${id}`;
+}
+
 //--------------------- GRADE QUIZ (STUDENTS) ---------------------//
 const gradeQuiz = async (quizId, studentId, quizData) => {
 	// quizData should be in the form of an array consisting of characters A, B, C, and D to compare against correctAnswers
@@ -210,7 +231,8 @@ module.exports = {
 	getSomeQuizzes,
 	getQuizById,
 	gradeQuiz,
-    getAllQuizzes
+    getAllQuizzes,
+    removeQuiz
 
 /*
 //---------------------CREATE A NEW QUIZ (By ADMIN/INSTRUCTORS)--------------------//
