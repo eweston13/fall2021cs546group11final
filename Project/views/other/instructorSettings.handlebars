@@ -1,35 +1,44 @@
 <div class='flex-container'>
 
-
     <form id='update-form' method='post' action='/settings/instructorUpdate'>
-        <h1 class = "subtitle">Instructor Settings</h1>
-        <div>
-            <label for='instructorFirstName'>First Name</label>
-            <input type='text' id='instructorFirstName' name='instructorFirstName' />
-        </div>
-
-        <div>
-            <label for='instructorLastName'>Last Name</label>
-            <input type='text' id='instructorLastName' name='instructorLastName' />
-        </div>
-
-        <div>
-            <label for='instructorEmail'>Email</label>
-            <input type='text' id='instructorEmail' name='instructorEmail' />
-        </div>
-
-        <div>
-            <label for='instructorUsername'>Username</label>
-            <input type='text' id='instructorUsername' name='instructorUsername' />
-        </div>
-
-        <div>
-            <label for='instructorPassword'>Password</label>
-            <input type='password' id='instructorPassword' name='instructorPassword' />
-        </div>
-
-        <a href='/'>Click here to go back to home page</a>
+        <h1 class='title'>Instructor Settings</h1>
+        <br />
+        <br />
+        <label for='instructorFirstName' class = 'subtitle'>First Name</label>
+        <br />
+        <input type='text' id='instructorFirstName' name='instructorFirstName' />
+        <br />
+        <br />
+        <br />
+        <label for='instructorLastName' class = 'subtitle'>Last Name</label>
+        <br />
+        <input type='text' id='instructorLastName' name='instructorLastName' />
+        <br />
+        <br />
+        <br />
+        <label for='instructorEmail' class = 'subtitle'>Email</label>
+        <br />
+        <input type='text' id='instructorEmail' name='instructorEmail' />
+        <br />
+        <br />
+        <br />
+        <label for='instructorUsername' class = 'subtitle'>Username</label>
+        <br />
+        <input type='text' id='instructorUsername' name='instructorUsername' />
+        <br />
+        <br />
+        <br />
+        <label for='instructorPassword' class = 'subtitle'>Password</label>
+        <br />
+        <input type='password' id='instructorPassword' name='instructorPassword' />
+        <br />
+        <br />
+        <br />
         <button type='submit' id='update-login-button'>Submit</button>
+        <br />
+        <br />
+        <br />
+        <a href='/' class='subtitle center'>Click here to go back to home page</a>
     </form>
 
     <form id='delete-form' method='post' action='/settings/instructorDelete'>

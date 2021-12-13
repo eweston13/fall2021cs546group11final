@@ -1,7 +1,7 @@
 <!-- this view is for students taking a quiz -->
-
+<h1 class = 'title'>{{quizTitle}}</h1>
+<br />
 <div class='flex-container'>
-	<h1>{{quizTitle}}</h2>
 
 	<form id="quiz" action="/quiz/{{quizId}}" method="post">
 
@@ -14,7 +14,7 @@
 		<br>
 	{{/each}}
 
-	<input type="submit">
+	<button type='submit' >Submit</button>
 
 
   </form>
