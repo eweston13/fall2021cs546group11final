@@ -1,71 +1,89 @@
 <div class='flex-container'>
-    <h1>Student Signup</h1>
 
-    <form id='login-form' method='post' action='/signup/studentSignup'>
-        <div>
-            <label for='firstName'>First Name</label>
-            <input type='text' id='firstName' name='firstName' />
-        </div>
-
-        <div>
-            <label for='lastName'>Last Name</label>
-            <input type='text' id='lastName' name='lastName' />
-        </div>
-
-        <div>
-            <label for='email'>Email</label>
-            <input type='text' id='email' name='email' />
-        </div>
-
-        <div>
-            <label for='username'>Username</label>
-            <input type='text' id='username' name='username' />
-        </div>
-
-        <div>
-            <label for='password'>Password</label>
-            <input type='password' id='password' name='password' />
-        </div>
-
-        <a href='/login'>Click here to go back to login page</a>
+    <form id='login-form' method='post' class='flex-child' action='/signup/studentSignup'>
+        <h1 class='title'>Student</h1>
+        <br />
+        <br />
+        <label for='firstName' class='subtitle'>First Name</label>
+        <br />
+        <input type='text' id='firstName' name='firstName' />
+        <br />
+        <br />
+        <br />
+        <label for='lastName' class='subtitle'>Last Name</label>
+        <br />
+        <input type='text' id='lastName' name='lastName' />
+        <br />
+        <br />
+        <br />
+        <label for='email' class='subtitle'>Email</label>
+        <br />
+        <input type='text' id='email' name='email' />
+        <br />
+        <br />
+        <br />
+        <label for='username' class='subtitle'>Username</label>
+        <br />
+        <input type='text' id='username' name='username' />
+        <br />
+        <br />
+        <br />
+        <label for='password' class='subtitle'>Password</label>
+        <br />
+        <input type='password' id='password' name='password' />
+        <br />
+        <br />
+        <br />
         <button type='submit' id='signUp-Button'>Submit</button>
+        <br />
+        <br />
+        <br />
     </form>
 
     {{StudentError}}
 
-    <h1>Instructor Signup</h1>
-
-    <form id='login-form' method='post' action='/signup/instructorSignup'>
-
-        <div>
-            <label for='instructorFirstName'>First Name</label>
-            <input type='text' id='instructorFirstName' name='instructorFirstName' />
-        </div>
-
-        <div>
-            <label for='instructorLastName'>Last Name</label>
-            <input type='text' id='instructorLastName' name='instructorLastName' />
-        </div>
-
-        <div>
-            <label for='instructorEmail'>Email</label>
-            <input type='text' id='instructorEmail' name='instructorEmail' />
-        </div>
-
-        <div>
-            <label for='instructorUsername'>Username</label>
-            <input type='text' id='instructorUsername' name='instructorUsername' />
-        </div>
-
-        <div>
-            <label for='instructorPassword'>Password</label>
-            <input type='password' id='instructorPassword' name='instructorPassword' />
-        </div>
-
-        <a href='/login'>Click here to go back to login page</a>
+    <form id='login-form' method='post' class='flex-child' action='/signup/instructorSignup'>
+        <h1 class='title'>Instructor</h1>
+        <br />
+        <br />
+        <label for='instructorFirstName' class='subtitle'>First Name</label>
+        <br />
+        <input type='text' id='instructorFirstName' name='instructorFirstName' />
+        <br />
+        <br />
+        <br />
+        <label for='instructorLastName' class='subtitle'>Last Name</label>
+        <br />
+        <input type='text' id='instructorLastName' name='instructorLastName' />
+        <br />
+        <br />
+        <br />
+        <label for='instructorEmail' class='subtitle'>Email</label>
+        <br />
+        <input type='text' id='instructorEmail' name='instructorEmail' />
+        <br />
+        <br />
+        <br />
+        <label for='instructorUsername' class='subtitle'>Username</label>
+        <br />
+        <input type='text' id='instructorUsername' name='instructorUsername' />
+        <br />
+        <br />
+        <br />
+        <label for='instructorPassword' class='subtitle'>Password</label>
+        <br />
+        <input type='password' id='instructorPassword' name='instructorPassword' />
+        <br />
+        <br />
+        <br />
         <button type='submit' id='signUp-Button'>Submit</button>
+        <br />
+        <br />
+        <br />
     </form>
 
     {{InstructorError}}
 
 </div>
+<br />
+<a href='/login' class='subtitle center'>Click here to go back to login page!</a>
