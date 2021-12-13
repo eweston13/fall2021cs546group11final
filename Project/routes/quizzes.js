@@ -75,10 +75,10 @@ router.post('/:id', async(req, res) => {
         return
     }
 
-    if(!id){
-        res.status(400).render("other/quiz-view", {layout: "studentLogin", quizId: String(quiz._id), quizTitle: quiz.quizName, questions: quizQuestions, error: e})
-        return 
-    }
+    // if(!id){
+    //     res.status(400).render("other/quiz-view", {layout: "studentLogin", quizId: String(quiz._id), quizTitle: quiz.quizName, questions: quizQuestions, error: e})
+    //     return 
+    //}
 
     try{
         gradequiz = await quizData.gradeQuiz(req.params.id, req.session.userId, questionAnswers)
